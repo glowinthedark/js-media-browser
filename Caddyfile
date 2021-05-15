@@ -1,0 +1,14 @@
+http:// {
+
+	root * /media
+
+	file_server browse {
+		root /media
+		hide .git
+		index ''
+	}
+
+@plist {
+	path *.plist
+}
+header @plist Content-Type application/xml

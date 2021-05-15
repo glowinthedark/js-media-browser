@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="author" content="info@xhumanoid.com">
+    <title>Media Browser</title>
+    <link rel="stylesheet" href="css/split-pane.css" />
+    <link rel="stylesheet" href="css/pretty-split-pane.css" />
+    <script src="js/jquery.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/split-pane.js"></script>
+    <script src="js/angular-split-pane.js"></script>
+    <script src="js/marked.min.js"></script>
+    <link rel="apple-touch-icon" sizes="57x57" href="ico/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="ico/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="ico/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="ico/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="ico/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="ico/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="ico/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="ico/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="ico/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="ico/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="ico/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="ico/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="ico/favicon-16x16.png">
+    <link rel="manifest" href="ico/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="ico/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            min-height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            padding: 0;
+            margin: 0;
+        }
+
+        .media-pane {
+            position: relative;
+        }
+
+        #playbackSpeed {
+            max-width: 30px;
+            min-width: 30px;
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        audio {
+            min-width: 90%;
+            max-width: 90%;
+            width: 90%;
+            display: block;
+            margin: 0 40px 0 0;
+        }
+
+        video {
+            height: 100%;
+            min-height: 100%;
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        iframe {
+            background-color: whitesmoke;
+        }
+
+        #docview {
+            border-style: none;
+            margin: 0;
+            padding: 0
+        }
+
+        a:link {
+            color: #808080;
+            text-decoration: none;
+        }
+
+        /* visited link */
+
+        a:visited {
+            color: #808080;
+            text-decoration: none;
+        }
+
+        /* mouse over link */
+
+        a:hover {
+            color: #ff7d12;
+        }
+
+        /* selected link */
+
+        a:active {
+            color: #ff7d12;
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            list-style: none;
+            padding: 0 .1em .1em .7em;
+            margin: 0;
+        }
+
+        .spinhost {
+            position: relative;
+        }
+
+        .spinhost #spinr_content {
+            display: none;
+        }
+
+        .fileinfo {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            align-items: baseline;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+            justify-content: space-between;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .size {
+            color: gray;
+            font-size: 90%;
+            font-stretch: ultra-condensed;
+            flex-shrink: 0;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .fname {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        nav {
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .inlined {
+            display: table-cell;
+            margin: 0;
+            padding: 0;
+        }
+
+        .inlined a {
+            display: inline-block;
+            width: 100%;
+        }
+
+        .btn-back {
+            background-color: white;
+            font-size: 140%;
+            width: 70%;
+            cursor: pointer;
+            float: left;
+            border-bottom: 1px solid #fafafa;
+            padding-left: 5px;
+        }
+
+        .m3u {
+            padding-right: 5px;
+            min-width: 16%;
+            float: right;
+            text-align: right;
+        }
+
+        .m3u a {
+            font-size: 10px;
+        }
+
+        .split-pane .lk-no-ovrflw {
+            background-color: white;
+            overflow: hidden !important;
+        }
+
+        .pretty-split-pane-component-inner {
+            padding: 0;
+        }
+
+        select {
+            background: transparent;
+            font-size: 16px;
+            border: 0;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            color: lightgray;
+        }
+
+        * {
+            font-family: "Droid Sans", sans-serif;
+            font-size: 12pt;
+            line-height: 160%;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* http://jsfiddle.net/xLc2Le0k/15/
+        */
+
+        a.imglnk {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .preview img {
+            width: 100%;
+            min-width: 50px;
+        }
+
+        @media (min-width: 768px) {
+            .preview img {
+                max-width: 300px;
+            }
+        }
+
+        @media only screen and (max-width: 767px) {
+            body {
+                padding: 0;
+                margin: 0;
+            }
+
+            * {
+                font-family: "Droid Sans", sans-serif;
+                font-size: 14pt;
+                line-height: 160%;
+                padding: 0;
+                margin: 0;
+            }
+
+            .preview img {
+                max-width: 400px;
+            }
+        }
+
+        /* SPINNER */
+
+        .ispinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            z-index: 99999;
+        }
+
+        .ispinner .ispinner-blade {
+            position: absolute;
+            top: 6.5px;
+            left: 8.5px;
+            width: 2.5px;
+            height: 6.5px;
+            background-color: #8e8e93;
+            border-radius: 1.25px;
+            animation: iSpinnerBlade 1s linear infinite;
+            will-change: opacity;
+        }
+
+        .ispinner .ispinner-blade:nth-child(1) {
+            transform: rotate(45deg) translateY(-6.5px);
+            animation-delay: -1.625s;
+        }
+
+        .ispinner .ispinner-blade:nth-child(2) {
+            transform: rotate(90deg) translateY(-6.5px);
+            animation-delay: -1.5s;
+        }
+
+        .ispinner .ispinner-blade:nth-child(3) {
+            transform: rotate(135deg) translateY(-6.5px);
+            animation-delay: -1.375s;
+        }
+
+        .ispinner .ispinner-blade:nth-child(4) {
+            transform: rotate(180deg) translateY(-6.5px);
+            animation-delay: -1.25s;
+        }
+
+        .ispinner .ispinner-blade:nth-child(5) {
+            transform: rotate(225deg) translateY(-6.5px);
+            animation-delay: -1.125s;
+        }
+
+        .ispinner .ispinner-blade:nth-child(6) {
+            transform: rotate(270deg) translateY(-6.5px);
+            animation-delay: -1s;
+        }
+
+        .ispinner .ispinner-blade:nth-child(7) {
+            transform: rotate(315deg) translateY(-6.5px);
+            animation-delay: -0.875s;
+        }
+
+        .ispinner .ispinner-blade:nth-child(8) {
+            transform: rotate(360deg) translateY(-6.5px);
+            animation-delay: -0.75s;
+        }
+
+        .ispinner.ispinner-large {
+            width: 35px;
+            height: 35px;
+        }
+
+        .ispinner.ispinner-large .ispinner-blade {
+            top: 11.5px;
+            left: 15px;
+            width: 5px;
+            height: 12px;
+            border-radius: 2.5px;
+        }
+
+        .ispinner.ispinner-large .ispinner-blade:nth-child(1) {
+            transform: rotate(45deg) translateY(-11.5px);
+        }
+
+        .ispinner.ispinner-large .ispinner-blade:nth-child(2) {
+            transform: rotate(90deg) translateY(-11.5px);
+        }
+
+        .ispinner.ispinner-large .ispinner-blade:nth-child(3) {
+            transform: rotate(135deg) translateY(-11.5px);
+        }
+
+        .ispinner.ispinner-large .ispinner-blade:nth-child(4) {
+            transform: rotate(180deg) translateY(-11.5px);
+        }
+
+        .ispinner.ispinner-large .ispinner-blade:nth-child(5) {
+            transform: rotate(225deg) translateY(-11.5px);
+        }
+
+        .ispinner.ispinner-large .ispinner-blade:nth-child(6) {
+            transform: rotate(270deg) translateY(-11.5px);
+        }
+
+        .ispinner.ispinner-large .ispinner-blade:nth-child(7) {
+            transform: rotate(315deg) translateY(-11.5px);
+        }
+
+        .ispinner.ispinner-large .ispinner-blade:nth-child(8) {
+            transform: rotate(360deg) translateY(-11.5px);
+        }
+
+        @keyframes iSpinnerBlade {
+            0% {
+                opacity: 0.85;
+            }
+
+            50% {
+                opacity: 0.25;
+            }
+
+            100% {
+                opacity: 0.25;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+        const IS_ALWAYS_USE_PDF_JS = false;
+
+        var IS_HIGHLIGHTER_ENABLED = true;
+
+        const REGEX_TYPE_AUDIO = /\.(mp3|m4a|aac|flac|ape|wav|ogg|oga)$/i;
+        const REGEX_TYPE_VIDEO = /\.(mp4|m4v|avi|mov|mpg|mpeg|webm|ogv|ogm|opus|mkv)/i;
+        const REGEX_TYPE_AUDIO_VIDEO = /(mp3|m4a|aac|flac|ape|wav|ogg|oga|ogv|mp4|m4v|avi|mov|mpg|mpeg|webm|mkv)$/i;
+        const REGEX_TYPE_IMAGE = /\.(gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|heic)$/i;
+        const REGEX_TYPE_CONTENT = /\.(pdf|html?|php|js|py|sh|xml|txt|xml|bat|docx?|xlsx?|s?css|json|java|c|log|\..+rc|cpp|h|hpp|srt|cfg|conf|ini|gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|cs|pl)$/i;
+        const REGEX_TYPE_CODE = /\.(kt|go|rst?|rb|dart|php|js|tsx?|py|z?sh|xml|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|yaml|yml|groovy|swift|properties|gradle|srt|m3u8?)$/i;
+        const REGEX_TYPE_CONTENT_FULL_SCREEN = /\.(gif|jpg|jpeg|apng|png|tiff|bmp|eps|pcx|webp|ico|icns|psd|xpm|wmf)$/i;
+        const REGEX_TYPE_MARKDOWN = /\.(md)$/i;
+
+        const ICON_AUDIO = "&#x1F3A7;" // 🎧
+        const ICON_VIDEO = "&#x1F3A5;" // 🎥
+        const ICON_PDF = "&#128195;" // 📃
+        const ICON_DIR = "&#128193;" // 📁
+        const ICON_HTML = "&#x1F30D;" // 🌍
+        const ICON_IMAGE = "&#x1F305;" // 🌅
+        const ICON_UNKNOWN = "&#x2753;" // ❓
+        const ICON_BACK = "&#x21B0;" // ↰
+        const ICON_TEXT = "&#x1F4C3;" // 📃
+        const ICON_MISC = "&#x1F9E9;" // 🧩
+        const ICON_MARKDOWN = "&#x1F17C;" // 🅼
+
+        const ICONS_BY_TYPE = {
+            'pdf': ICON_PDF,
+            'mp3': ICON_AUDIO,
+            'm4a': ICON_AUDIO,
+            'flac': ICON_AUDIO,
+            'ogg': ICON_AUDIO,
+            'oga': ICON_AUDIO,
+            'aac': ICON_AUDIO,
+            'ape': ICON_AUDIO,
+            'wav': ICON_AUDIO,
+            'mp4': ICON_VIDEO,
+            'vob': ICON_VIDEO,
+            'ogv': ICON_VIDEO,
+            'ogm': ICON_VIDEO,
+            'opus': ICON_VIDEO,
+            'mkv': ICON_VIDEO,
+            'm4v': ICON_VIDEO,
+            'mov': ICON_VIDEO,
+            '3gp': ICON_VIDEO,
+            '3gpp': ICON_VIDEO,
+            'webm': ICON_VIDEO,
+            'html': ICON_HTML,
+            'php': ICON_HTML,
+            'htm': ICON_HTML,
+            'mhtm': ICON_HTML,
+            'jpg': ICON_IMAGE,
+            'bmp': ICON_IMAGE,
+            'jpeg': ICON_IMAGE,
+            'svg': ICON_IMAGE,
+            'png': ICON_IMAGE,
+            'gif': ICON_IMAGE,
+            'webp': ICON_IMAGE,
+            'heic': ICON_IMAGE,
+            'md': ICON_MARKDOWN,
+            'rst': ICON_TEXT,
+            'txt': ICON_TEXT,
+            'srt': ICON_TEXT,
+            'ini': ICON_TEXT,
+            'cfg': ICON_TEXT,
+            'log': ICON_TEXT,
+            'conf': ICON_MISC,
+            'c': ICON_MISC,
+            'js': ICON_MISC,
+            'ts': ICON_MISC,
+            'tsx': ICON_MISC,
+            'css': ICON_MISC,
+            'scss': ICON_MISC,
+            'cpp': ICON_MISC,
+            'h': ICON_MISC,
+            'm': ICON_MISC,
+            'hpp': ICON_MISC,
+            'java': ICON_MISC,
+            'kt': ICON_MISC,
+            'yaml': ICON_MISC,
+            'yml': ICON_MISC,
+            'py': ICON_MISC,
+            'sh': ICON_MISC,
+            'zsh': ICON_MISC,
+            'bat': ICON_MISC,
+            'rb': ICON_MISC,
+            'dart': ICON_MISC,
+            'go': ICON_MISC,
+            'rs': ICON_MISC,
+            'json': ICON_MISC,
+            'groovy': ICON_MISC,
+            'properties': ICON_MISC,
+            'gradle': ICON_MISC,
+            'xml': ICON_MISC,
+            'plist': ICON_MISC,
+            'cs': ICON_MISC,
+            'pl': ICON_MISC,
+            'swift': ICON_MISC,
+            'm3u': ICON_MISC,
+            'm3u8': ICON_MISC,
+        }
+
+        AUTO_PLAY_NEXT = true;
+
+        // CONFIGURATION for custom matching between text files and media
+        // e.g. PDF and MP3/MP4
+        const URL_TRANSFORMATIONS = [
+            // LINK REGEX           MATCHING LINK REPLACEMENT
+            [/clo_(\d{3}).*\.mp3/i, "../PDF/CLO_$1_Vocab.pdf"],
+            [/(.*?)pr+([^\.]+)\.mp3/i, "$1$2.pdf"],
+            [/([^\s,-]+)\b([^\.]+)\.(pdf)/i, "$1pr$2.mp3"]
+        ];
+
+        // Opera 8.0+
+        var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+
+        // Firefox 1.0+
+        var isFirefox = typeof InstallTrigger !== 'undefined';
+
+        // Safari 3.0+ "[object HTMLElementConstructor]" 
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) {
+            return p.toString() === "[object SafariRemoteNotification]";
+        })(!window['safari'] || (typeof safari !== 'undefined' && window['safari'].pushNotification));
+
+        // Internet Explorer 6-11
+        var isIE = /*@cc_on!@*/ false || !!document.documentMode;
+
+        // Edge 20+
+        var isEdge = !isIE && !!window.StyleMedia;
+
+        // Chrome 1 - 79
+        var isChrome = (/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor)) || (!!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime));
+
+        // Edge (based on chromium) detection
+        var isEdgeChromium = isChrome && (navigator.userAgent.indexOf("Edg") != -1);
+
+        // Blink engine detection
+        var isBlink = (isChrome || isOpera) && !!window.CSS;
+
+        var isMobile = window.orientation > -1;
+
+        var HEIGHT_AUDIO = 50;
+
+        if (isChrome) {
+            HEIGHT_AUDIO = 50;
+        } else if (isOpera) {
+            HEIGHT_AUDIO = 54;
+        } else if (isFirefox) {
+            HEIGHT_AUDIO = 40;
+        }
+        const HEIGHT_VIDEO = 500;
+
+        function playNext(e) {
+            var href = lastClicked.attr('href');
+
+            if (AUTO_PLAY_NEXT && isPlayableLink(href)) {
+                var nextLink = lastClicked;
+                do {
+                    nextLink = nextLink.closest('li').next('li').find('a');
+                } while (!isPlayableLink(nextLink.attr('href')));
+
+                if (nextLink && isPlayableLink(nextLink.attr('href'))) {
+                    nextLink.click();
+                }
+            }
+        }
+
+        function isPlayableLink(href) {
+            return REGEX_TYPE_AUDIO.test(href) || REGEX_TYPE_VIDEO.test(href);
+        }
+
+        function findMatchingFileByExtension(path, extension_regex) {
+            
+            var pathUnescaped = decodeURIComponent(path),
+                baseName, parentDir;
+
+            if (pathUnescaped.indexOf('/') != -1) {
+
+                baseName = pathUnescaped.split('/').pop();
+                parentDir = pathUnescaped.replace(baseName, '');
+            } else {
+                baseName = pathUnescaped;
+                parentDir = '';
+            }
+
+
+            // handle special cases
+            for (var i = 0, len = URL_TRANSFORMATIONS.length; i < len; i++) {
+                var item = URL_TRANSFORMATIONS[i];
+
+                var matcher = item[0].exec(path);
+
+                if (matcher) {
+                    return parentDir + baseName.replace(item[0], item[1]);
+                }
+            }
+
+            // special case for mandarin-corner
+            if (/.*mandarin-corner.*/.test(document.location.href)) {
+                path = path.replace(/-/g, '%20');
+            }
+
+            // remove extension
+            var base_path = path.substring(0, path.lastIndexOf('.'));
+
+            // find first media link fuzzy matching current URL
+            var matched = $("[href*='" + base_path + "' i]");
+
+            var media_entries = matched.filter(
+                function () {
+                    return extension_regex.test(this);
+                }
+            );
+
+            if (media_entries.length) {
+                var media_entry = media_entries[0];
+                return media_entry.href ? media_entry.href : media_entry;
+            }
+        }
+
+        function isValidUrl(url) {
+            var isOk = false;
+            $.ajax({
+                type: "HEAD",
+                async: false,
+                cache: false,
+                url: url
+            }).done(function (message, text, jqXHR) {
+                isOk = true;
+            }).fail(function () {
+                console.log(`ERROR:HEAD: ${url}`)
+            });
+
+            return isOk;
+        }
+
+        function attachEventListeners() {
+
+            window.audioplayer = $('#audioplayer');
+            window.videoplayer = $('#videoplayer');
+            var contentPanel = $('#docview');
+
+            // video play/pause on click (firefox and safari already do this OOTB)
+            if (!window.safari && !window.netscape) {
+                videoplayer.click(function (e) {
+                    this.paused ? this.play() : this.pause();
+                    e.preventDefault();
+                    e.stopImmediatePropagation();
+                });
+            }
+
+            // handle key navigation
+            document.onkeydown = function (e) {
+                e.preventDefault();
+                e.stopImmediatePropagation();
+                var p = (audioplayer.is(':visible') ? audioplayer : videoplayer).get(0);
+
+                switch (e.which) {
+                    case 37: // left
+                        p.currentTime = p.currentTime - 5;
+                        break;
+                    case 38: // up
+                        p.currentTime = p.currentTime + 60;
+                        break;
+                    case 39: //  right
+                        p.currentTime = p.currentTime + 5;
+                        break;
+                    case 40: // down
+                        p.currentTime = p.currentTime - 60;
+                        break;
+                    case 32: // space
+                        // chrome OOTB handles play/pause on space when the element is focused
+                        if (!window.chrome || document.activeElement != p) {
+                            p.paused ? p.play() : p.pause();
+                        }
+                        break;
+                    case 70: // f-key
+                        if (!(e.shiftKey || e.ctrlKey || e.altKey || e.metaKey)) {
+                            if (!window.isFs) {
+                                window.isFs = true;
+                                var fs = p.requestFullscreen || p.webkitRequestFullscreen || p.mozRequestFullScreen || p.oRequestFullscreen || p.msRequestFullscreen;
+                                fs.call(p);
+                            } else {
+                                window.isFs = false;
+                                var fsx = p.exitFullScreen || p.webkitExitFullScreen || p.mozExitFullScreen || p.oExitFullScreen || p.msExitFullScreen;
+                                fsx.call(p);
+                            }
+                        }
+                        break;
+                }
+            };
+
+            // href clicks
+            $('a.fileinfo, a.imglnk, a.imglnk .preview img').click(function (e) {
+
+                var $link;
+
+                if (e.target.tagName !== 'A') {
+                    $link = $(e.target).closest('a');
+                    if ($link.data('type') === 'file') {
+                        e.preventDefault();
+                        e.stopImmediatePropagation();
+                    }
+                } else {
+                    $link = $(e.target);
+                }
+
+                // store the link for playNext()
+                window.lastClicked = $link;
+
+                $link.css({
+                    'color': '',
+                    'font-style': ''
+                });
+
+                var path = $link
+                    .css({
+                        'color': '#ff7d12',
+                        'font-weight': 'bold'
+                    })
+                    .attr('href');
+
+                console.log(`DBG: Link clicked ${$link.text()} path=${path}`);
+
+
+                if ($link.data('type') === 'file') {
+                    // document.location.hash = path;
+                } else {
+                    // it's a folder; navigate
+                    var goToDir = $link.attr("href").split('#')[1];
+                    document.title = unescape(goToDir);
+                    loadData(goToDir);
+                    return false;
+                }
+                var mediaLink;
+                var contentLink; // PDF or any other text file to be loaded into the frame
+                var isMediaLinkClick;
+
+                var isAudioDefined = false;
+                var isVideoDefined = false;
+                var inferredMediaLink;
+                var inferredContentLink;
+
+                if (path.match(REGEX_TYPE_CONTENT)) {
+                    e.preventDefault();
+                    contentLink = path;
+
+                    var matched_file = findMatchingFileByExtension(path, REGEX_TYPE_AUDIO_VIDEO);
+
+                    if (matched_file) {
+                        inferredMediaLink = matched_file;
+
+                        if (inferredMediaLink.match(REGEX_TYPE_AUDIO)) {
+                            isAudioDefined = true;
+                        } else if (inferredMediaLink.match(REGEX_TYPE_VIDEO)) {
+                            isVideoDefined = true;
+                        }
+                    }
+                } else if (path.match(REGEX_TYPE_AUDIO)) {
+                    isMediaLinkClick = true;
+                    mediaLink = path;
+                    isAudioDefined = true;
+                    e.preventDefault();
+                } else if (path.match(REGEX_TYPE_VIDEO)) {
+                    mediaLink = path;
+                    isMediaLinkClick = true;
+                    isVideoDefined = true;
+                    e.preventDefault();
+                }
+
+                if (!mediaLink && inferredMediaLink && isValidUrl(inferredMediaLink)) {
+                    mediaLink = inferredMediaLink;
+                }
+
+                // when audio or Video file is clicked then try to find the corresponding content file
+                if (isMediaLinkClick) {
+                    // special cases
+                    var partial_path = path
+                        .replace('_video', '')
+                        .replace('_review', '')
+                        .replace('_dialog', '');
+
+                    matched_file = findMatchingFileByExtension(partial_path, REGEX_TYPE_CONTENT);
+
+                    if (matched_file) {
+                        inferredContentLink = matched_file;
+                    }
+                }
+
+                if (!contentLink && inferredContentLink && isValidUrl(inferredContentLink)) {
+                    contentLink = inferredContentLink;
+                }
+
+                var baseFile = mediaLink && mediaLink.split(/\//g).pop();
+                var _scope = angular.element($("[ng-controller]")).scope();
+
+                if (isAudioDefined) {
+
+                    if (audioplayer.attr('src') !== mediaLink) {
+                        if (videoplayer.attr('src')) {
+                            videoplayer.attr('src', '')
+                        }
+                        videoplayer.hide();
+                        audioplayer
+                            .attr('src', mediaLink)
+                            .attr('title', decodeURIComponent(mediaLink))
+                            .show();
+                    }
+                } else if (isVideoDefined) {
+                    if (audioplayer.attr('src')) {
+                        audioplayer.attr('src', '');
+                    }
+                    audioplayer.hide();
+
+                    if (mediaLink && videoplayer.attr('src') !== mediaLink) {
+                        videoplayer
+                            .attr('title', decodeURIComponent(baseFile))
+                            .attr('src', mediaLink)
+                            .show();
+                        if (mediaLink.match(/\.mkv$/i)) {
+                            videoplayer.attr('type', `type='video/x-matroska; codecs="theora, vorbis"'`);
+                        } else if (videoplayer.attr('type')) {
+                            videoplayer.attr('type', '');
+                        }
+                    }
+                }
+
+                if (!mediaLink && !contentLink) {
+                    contentLink = path;
+                }
+
+                document.title = unescape(path);
+
+                if (mediaLink || !videoplayer.get(0).paused || !audioplayer.get(0).paused) {
+                    if (isAudioDefined || !audioplayer.get(0).paused) {
+                        _scope.setFirstComponent(HEIGHT_AUDIO);
+                    } else if (isVideoDefined || !videoplayer.get(0).paused) {
+                        _scope.setFirstComponent(HEIGHT_VIDEO);
+                    }
+                } else if (contentLink) {
+                    _scope.setFirstComponent(0);
+                } else if (!contentLink) {
+                    // why is this here?
+                    _scope.setLastComponent(0);
+                }
+
+                audioplayer.on('error', function () {
+                    console.log('AUDIO ERROR', this);
+
+                    if (!isVideoDefined) {
+                        _scope.setFirstComponent(0);
+                        _scope.$apply();
+                    }
+                });
+
+                _scope.$apply();
+
+                if (contentLink && contentPanel.attr('src') !== contentLink) {
+
+                    contentPanel.attr('src', null);
+
+                    // chrome doesn't display PDFs natively *inside iframes*, use pdf.js instead
+                    if (!isMobile && (isChrome || IS_ALWAYS_USE_PDF_JS) && contentLink.match(/\.pdf/i)) {
+                        contentPanel.attr('src', `js/pdfjs/web/viewer.html?file=${encodeURIComponent(contentLink)}`);
+
+                        // SPECIAL treatment for Markdown
+                    } else if (contentLink.match(REGEX_TYPE_MARKDOWN) && window.marked) {
+                        $('#spinr_content').show();
+
+                        fetch(contentLink)
+                            .then(resp => resp.text())
+                            .then(data => {
+                                var iframe_head = contentPanel.contents().find("head");
+
+                                var path = window.parent ? parent.window.location.pathname : window.location.pathname;
+                                path = path.replace(path.split('/').pop(), '');
+
+                                if (!iframe_head.length || !iframe_head.find('#flag_markdown').length) {
+                                    iframe_head.empty();
+                                    iframe_head.append($("<link/>", {
+                                        rel: "stylesheet",
+                                        id: 'flag_markdown',
+                                        href: `${path == '/' ? '' : path}css/splendor.css`,
+                                        type: "text/css"
+                                    }));
+                                }
+                                return data;
+                            })
+                            .then(data => {
+                                var markdown_content = marked(data);
+                                contentPanel.contents().find('body').html(markdown_content);
+                                $('#spinr_content').hide();
+                                contentPanel.contents().scrollTop(0);
+                            });
+                        // SPECIAL treatment for XML, JS, CSS, JAVA, etc
+                    } else if (IS_HIGHLIGHTER_ENABLED && contentLink.match(REGEX_TYPE_CODE)) {
+                        $('#spinr_content').show();
+
+                        contentPanel.attr('src', null);
+                        // refresh reference
+                        
+                        fetch(contentLink)
+                            .then(resp => resp.text())
+                            .then(data => {
+                                var head = contentPanel.contents().find("head");
+                                // ONLY append if not already present
+                                if (!head.length || !head.find('#flag_highlight').length) {
+                                    head.empty();
+                                    var path = window.parent ? parent.window.location.pathname : window.location.pathname;
+                                    path = path.replace(path.split('/').pop(), '');
+                                    path == '/' ? '' : path;
+
+                                    head.append($("<link/>", {
+                                        rel: "stylesheet",
+                                        id: 'flag_highlight',
+                                        href: `${path}css/atelier-estuary-light.css`,
+                                        type: "text/css"
+                                    })).append($('<script/>', {
+                                        src: `${path}js/highlight.min.js`
+                                    }));
+                                }
+                                return data;
+                            })
+                            .then(data => {
+                                $(contentPanel).ready(function () {
+                                    var page_content = data,
+                                        body = contentPanel.contents().find('body');
+
+                                    if (contentLink.match(/\.(xml|plist)$/i)) {
+                                        body.html(`<pre><code id="xml__code"></code></pre>`);
+                                        body.find('#xml__code').get(0).innerText = page_content;
+                                    } else {
+                                        body.html(`<pre><code>${page_content}</code></pre>`);
+                                    }
+                                    body.append("<script>(window.hljs ? window.hljs.highlightAll() : setTimeout(window.hljs.highlightAll(), 50));</" + "script>");
+                                        $('#spinr_content').hide();
+                                        contentPanel.contents().scrollTop(0);
+                                });
+                            });
+                    } else {
+                        contentPanel.contents().find("head").empty();
+                        // contentPanel.attr('type', null);
+                        contentPanel.attr('src', contentLink);
+                    }
+                }
+            });
+        }
+
+        function fileSizeIEC(a, b, c, d, e) {
+            return (b = Math, c = b.log, d = 1024, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(e ? 2 : 0) +
+                ' ' + (e ? 'KMGTPEZY'[--e] + 'B' : 'b')
+        }
+
+        function goUp() {
+            var curdir = getPath();
+
+            if (curdir) {
+                if (curdir.endsWith('/')) {
+                    curdir = curdir.slice(0, -1);
+                }
+                var parentDir = curdir.substring(0, curdir.lastIndexOf('/'));
+                window.top.location.hash = parentDir;
+                document.title = unescape(parentDir);
+                loadData(parentDir);
+
+            } else {
+                console.log('DBG: history back');
+                window.history.back();
+            }
+        }
+
+        function getPath() {
+            var curdir = window.top.location.hash;
+            if (curdir) {
+                curdir = curdir.slice(1);
+                curdir = curdir.endsWith('/') ? curdir : `${curdir}/`;
+            }
+            return curdir || '/';
+        }
+
+        function isTrue(val) {
+            return  ["true", "1", "yes", "on"].indexOf(val) != -1;
+        }
+
+        function loadData(path) {
+            var curdir = path || getPath();
+            curdir = curdir.endsWith('/') ? curdir : `${curdir}/`;
+            var params = new URL(document.location.href).searchParams;
+            var includeHidden = isTrue(params.get('hidden'));
+            
+            // supress highliter with 'nohl=true'
+            if (isTrue(params.get('nohl'))) {
+                IS_HIGHLIGHTER_ENABLED = false;
+            }
+
+            $('#spinr').show();
+
+            $.getJSON(curdir)
+                .done(function (data) {
+                    var filelist = document.getElementById('filelist');
+                    $(filelist).html(""); 
+
+                    data.forEach(element => {
+                        if (!includeHidden && element.name.charAt(0) == '.') {
+                            return;
+                        }
+                        var type, href, icon, path = element.url.replace(/^\.\//, '');
+
+                        if (element.is_dir) {
+                            type = 'dir';
+                            icon = ICON_DIR;
+                            href = `${window.location.pathname}#${curdir}${path}`;
+                        } else {
+                            type = 'file';
+                            var extension = element.name.split('.').pop().toLowerCase();
+                            icon = ICONS_BY_TYPE[extension] || ICON_UNKNOWN;
+
+                            href = `${curdir}${path}`;
+                        }
+
+                        var li = document.createElement('li');
+
+                        var preview = '';
+                        if (REGEX_TYPE_IMAGE.test(href) && element.size < 1048576) {
+
+                            preview = `<a class="imglnk" data-type="file" title="️${element.name} [${fileSizeIEC(element.size)}]" href="${href}">
+                                    <div class="preview">
+                                        <img src="${href}">
+                                    </div>
+                                </a>`;
+                        }
+
+                        $(li).html(`${preview}\n<a class="fileinfo" data-type="${type}" title="${element.name}" href="${href}">
+                                <span class="fname">${icon}&nbsp;${element.name}</span>
+                                <span class="size">${element.is_dir ? '' : fileSizeIEC(element.size)}</span>
+                            </a>`);
+                        filelist.appendChild(li);
+                    });
+
+                }).fail(function (jqxhr, textStatus, error) {
+                    var err = textStatus + ", " + error;
+                    alert(`${err}\n${JSON.stringify(jqxhr)}`)
+                    console.log("Request Failed: " + err);
+                }).then(() => {
+                    console.log('DONE');
+                    attachEventListeners();
+                    window.top.location.hash = curdir;
+                }).always(function name(params) {
+                    $('#spinr').hide();
+                });
+        }
+
+        $(document).ready(function () {
+            loadData();
+
+            $('#docview').on('load', function (e) {
+                var docHead = $(e.target).contents().find("head");
+                docHead.append('<style type="text/css">body{height:100%; position:relative} body>img {display:block; text-align:center; position:absolute; max-width:100%; max-height:100%; margin:auto; top:0; bottom: 0; left:0; right: 0}</style>');
+            });
+        });
+    </script>
+
+</head>
+
+<body data-ng-app="mediabro" ng-controller="MainCtrl">
+
+    <div class="pretty-split-pane-frame">
+
+        <div data-split-pane>
+
+            <div data-split-pane-component data-width="300px">
+                <div class="pretty-split-pane-component-inner spinhost">
+                    <nav>
+                        <div class="inlined btn-back">
+                            <a title="parent folder" href="#" onclick="goUp();return false;">&#x21B0;</a>
+                        </div>
+                    </nav>
+                    <div id="spinr" class="ispinner ispinner-large">
+                        <div class="ispinner-blade"></div>
+                        <div class="ispinner-blade"></div>
+                        <div class="ispinner-blade"></div>
+                        <div class="ispinner-blade"></div>
+                        <div class="ispinner-blade"></div>
+                        <div class="ispinner-blade"></div>
+                        <div class="ispinner-blade"></div>
+                        <div class="ispinner-blade"></div>
+                    </div>
+                    <div style="clear:both"></div>
+                    <ul id="filelist">
+
+                    </ul>
+                </div>
+            </div>
+
+            <div data-split-pane-divider data-width="5px"></div>
+
+            <div data-split-pane-component>
+
+                <div data-split-pane data-split-pane-properties="splitPaneProperties">
+                    <div data-split-pane-component data-height="54px">
+                        <div class="pretty-split-pane-component-inner media-pane">
+                            <audio onended="playNext();" style="display:none" id="audioplayer" autoplay controls>
+                            </audio>
+                            <select id="playbackSpeed" name="playbackSpeed"
+                                ng-options="opt.value as opt.name for opt in options" ng-model="data.currentSpeed"
+                                ng-change="setPlaybackRate(this)">
+                            </select>
+
+                            <video onended="playNext();" style="display:none" id="videoplayer" autoplay controls>
+                            </video>
+                        </div>
+                    </div>
+                    <div data-split-pane-divider data-height="5px"></div>
+                    <div data-split-pane-component class="lk-no-ovrflw spinhost">
+                        <div id="spinr_content" class="ispinner ispinner-large">
+                            <div class="ispinner-blade"></div>
+                            <div class="ispinner-blade"></div>
+                            <div class="ispinner-blade"></div>
+                            <div class="ispinner-blade"></div>
+                            <div class="ispinner-blade"></div>
+                            <div class="ispinner-blade"></div>
+                            <div class="ispinner-blade"></div>
+                            <div class="ispinner-blade"></div>
+                        </div>
+                        <iframe id="docview" width="100%" height="99%" frameBorder="0" cellspacing="0">
+                        </iframe>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+        angular.module('mediabro', ['shagstrom.angular-split-pane'])
+            .controller('MainCtrl', function ($scope) {
+                $scope.splitPaneProperties = {};
+
+                $scope.setFirstComponent = function (value) {
+                    $scope.splitPaneProperties.firstComponentSize = value;
+                };
+                $scope.setLastComponent = function (value) {
+                    console.log(value);
+                    $scope.splitPaneProperties.lastComponentSize = value;
+                };
+
+                // playback speed options
+                $scope.options = [];
+
+                for (var i = 50; i <= 200; i += 10) {
+                    var n = i / 100;
+                    $scope.options.push({
+                        name: n + 'x',
+                        value: n
+                    });
+                }
+
+                $scope.data = {
+                    currentSpeed: $scope.options[5].value
+                };
+
+                $scope.setPlaybackRate = function (item) {
+                    console.log('playbackSpeed', item.data.currentSpeed);
+
+                    if (audioplayer.is(':visible')) {
+                        audioplayer[0].playbackRate = item.data.currentSpeed;
+                    } else if (videoplayer.is(':visible')) {
+                        videoplayer[0].playbackRate = item.data.currentSpeed;
+                    } else {
+                        $scope.data = {
+                            currentSpeed: $scope.options[5].value
+                        };
+                    }
+                }
+            });
+    </script>
+</body>
+
+</html>
