@@ -542,11 +542,11 @@
         function playNext(e) {
             var href = lastClicked.attr('href');
 
-            if (AUTO_PLAY_NEXT && isPlayableLink(href)) {
+            if (AUTO_PLAY_NEXT && href && isPlayableLink(href)) {
                 var nextLink = lastClicked;
                 do {
                     nextLink = nextLink.closest('li').next('li').find('a');
-                } while (!isPlayableLink(nextLink.attr('href')));
+                } while (nextLink.length !== 0 && !isPlayableLink(nextLink.attr('href')));
 
                 if (nextLink && isPlayableLink(nextLink.attr('href'))) {
                     nextLink.click();
