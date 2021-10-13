@@ -27,7 +27,7 @@ http:// {
 }
 ```
 
-> NOTE: The caddy `file_server_browser` module must have the `index ''` instruction. Otherwise caddy will attempt to load existing `index.html` instead of returning directory listings in JSON format as required by the client-side.
+> NOTE: The caddy `file_server_browser` module must have the `index ''` instruction. Otherwise caddy will attempt to load existing `index.html` files (if they exist) instead of returning directory listings in JSON format as required by the client-side.
 
 #### Features:
 
