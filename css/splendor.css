@@ -75,6 +75,17 @@ td, th, td p, th p {
   border: 1px dotted rgb(165, 165, 165);
 }
 
+hr {
+  box-sizing: content-box;
+  overflow: visible;
+  background: transparent;
+  height: 4px;
+  padding: 0;
+  margin: 1em 0;
+  background-color: #e7e7e7;
+  border: 0 none;
+}
+
 details {
   margin: 0 !important;
   padding: 0 !important;
@@ -189,7 +200,7 @@ html {
 
 body {
   color: #444;
-  font-family: 'Merriweather', Georgia, serif;
+  font-family: Cambria, 'Avenir Next Condensed', Avenir, 'Merriweather', Georgia, serif;
   margin: 0;
   max-width: 100%;
 }
@@ -212,7 +223,6 @@ div img {
 }
 
 blockquote p {
-  font-size: 1.5rem;
   font-style: italic;
   margin: 1rem auto 1rem;
   max-width: 70%;
