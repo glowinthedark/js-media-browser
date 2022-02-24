@@ -500,6 +500,13 @@
             [/([^\s,-]+)\b([^\.]+)\.(pdf)/i, "$1pr$2.mp3"]
         ];
 
+        const SKIP_INTROS = [
+            [/rv\./i, 5],
+            [/dg\./i, 4],
+            [/pr\./i, 10],
+            [/whale/i, 20]
+        ];
+
         // Opera 8.0+
         var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
 
@@ -540,10 +547,10 @@
         const HEIGHT_VIDEO = 500;
 
         function playNext(e) {
-            var href = lastClicked.attr('href');
+            var href = window.lastClicked.attr('href');
 
             if (AUTO_PLAY_NEXT && href && isPlayableLink(href)) {
-                var nextLink = lastClicked;
+                var nextLink = window.lastClicked;
                 do {
                     nextLink = nextLink.closest('li').next('li').find('a');
                 } while (nextLink.length !== 0 && !isPlayableLink(nextLink.attr('href')));
@@ -637,7 +644,19 @@
                     e.stopImmediatePropagation();
                 });
             }
+            // AUTOSKIP INTROs
+            window.audioplayer.on('play', function (e) {
+                debugger;
+                if (e.target.src && e.target.currentTime == 0) {
+                    for (var i = 0; i < SKIP_INTROS.length; i++) {
+                        var regEx = SKIP_INTROS[i][0];
+                        var skipSeconds = SKIP_INTROS[i][1];
 
+                        if (regEx.test(decodeURIComponent(e.target.src)))
+                            e.target.currentTime = skipSeconds;
+                    }
+                }
+            });
             // handle key navigation
             document.onkeydown = function (e) {
                 e.preventDefault();
@@ -968,7 +987,7 @@
         }
 
         function isTrue(val) {
-            return  ["true", "1", "yes", "on"].indexOf(val) != -1;
+            return ["true", "1", "yes", "on"].indexOf(val) != -1;
         }
 
         function loadData(path) {
@@ -986,6 +1005,11 @@
 
             $.getJSON(curdir)
                 .done(function (data) {
+                    // Natural sorting
+                    if (window.Intl && window.Intl.Collator) {
+                        var naturalCollator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
+                        data.sort((a, b) => naturalCollator.compare(a.name, b.name));
+                    }
                     var filelist = document.getElementById('filelist');
                     $(filelist).html(""); 
 
@@ -1120,7 +1144,7 @@
 
         </div>
     </div>
-    <script>
+    <script type="text/javascript">
         angular.module('mediabro', ['shagstrom.angular-split-pane'])
             .controller('MainCtrl', function ($scope) {
                 $scope.splitPaneProperties = {};
