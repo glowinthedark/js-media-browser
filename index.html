@@ -1008,7 +1008,8 @@
                     // Natural sorting
                     if (window.Intl && window.Intl.Collator) {
                         var naturalCollator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
-                        data.sort((a, b) => naturalCollator.compare(a.name, b.name));
+                        data.sort((a, b) => a.is_dir === b.is_dir ? naturalCollator.compare(a.name, b.name) : a.is_dir ? -1 :1);
+
                     }
                     var filelist = document.getElementById('filelist');
                     $(filelist).html(""); 
