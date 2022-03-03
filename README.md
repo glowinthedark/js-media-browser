@@ -18,12 +18,6 @@ http:// {
 		hide .git
 		index ''
 	}
-
-	@plist {
-		path *.plist
-	}
-	header @plist Content-Type application/xml
-
 }
 ```
 
