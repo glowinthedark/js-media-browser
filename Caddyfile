@@ -1,9 +1,9 @@
 http:// {
 
-	root * /media
+	root * /
 
 	file_server browse {
-		root /media
+		root /
 		hide .git
 		index ''
 	}
