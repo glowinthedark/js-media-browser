@@ -25,7 +25,7 @@ http:// {
 
 #### Features:
 
-* displaying PDF and HTML content with associated audio/video links
+* displaying PDF and HTML content with associated audio/video files
 * adjustable playback speed for media files
 * resizable navigation and content panels
 * markdown rendering for `.md` files
