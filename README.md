@@ -54,3 +54,6 @@ For more details refer to [mozilla browser media compatibility table](https://de
 | Down  | Seek backward 1 min  |
 | Space  | Pause/Play  |
 | f  | Toggle full screen  |
+
+## Screenshot
+![mediabrowser](https://raw.githubusercontent.com/glowinthedark/pymediacenter/master/mediabrowser-sample.png "sample screenshot")
