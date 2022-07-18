@@ -1,10 +1,10 @@
 # MediaBrowser for Caddy
 
-An HTML+JS media browser for navigating file systems that contain text files (with source code highlighting) images, audio or video files, and displaying associated content such as PDF, HTML, or TXT.
+An HTML+JS media browser for navigating file systems that contain text files (supported formats are displayed with source code highlighting) images, audio or video files. For video/audio files associated content such as PDF, HTML, or TXT can be displayed based on file name matching rules.
 
-The original use case was viewing audio or video files with associated notes in PDF, HTML or TXT format. Clicking a media file will open it in the media preview panel and search for a matching PDF or HTML file with the same base name. If a matching content file was found it will be loaded in the content preview panel below the media panel.
+The original use case is viewing audio or video files with associated notes in PDF, HTML or TXT format. Clicking a media file will open it in the media preview panel and search for a matching PDF or HTML file with the same base name. If a matching content file was found it will be loaded in the content preview panel below the media panel.
 
-The app does not include a web server and is made to work with the [caddy server](https://caddyserver.com/). 
+The app does not include a web server and works with the [caddy server](https://caddyserver.com/). 
 
 An example `/etc/caddy/Caddyfile`:
 
