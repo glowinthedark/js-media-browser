@@ -28,6 +28,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="ico/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="ico/favicon-96x96.png">
     <link rel="icon" type="image/png" sizes="16x16" href="ico/favicon-16x16.png">
+    <link rel="stylesheet" href="css/highlight-11.7.0.min.css">
     <link rel="manifest" href="ico/manifest.json">
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="ico/ms-icon-144x144.png">
@@ -78,7 +79,7 @@
         }
 
         iframe {
-            background-color: whitesmoke;
+            background-color: white;
         }
 
         #docview {
@@ -386,6 +387,51 @@
         .hidden {
             display: none;
         }
+
+        /* webvtt */
+        video::cue {
+            /* background-image: linear-gradient(to bottom, dimgray, lightgray); */
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffc800;
+        }
+
+        video::cue(b) {
+            color: rgb(51, 216, 18);
+            font-weight: normal;
+        }
+
+        video::cue(i) {
+            color: #00bafd;
+            font-style: normal;
+        }
+
+        video::cue(u) {
+            text-decoration: none;
+            color: #ff00ee;
+            font-style: normal;
+        }
+
+        video::cue(.w) {
+            color: white;
+        }
+
+        video::cue(.b) {
+            color: aqua;
+        }
+
+        video::cue(.p) {
+            color: rgb(255, 0, 255);
+        }
+
+        /* video::cue(eng) {
+            color: rgb(221, 0, 255);
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        video::cue(font) {
+            color: rgb(0, 255, 255);
+            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+        } */
     </style>
     <script type="text/javascript">
         const IS_ALWAYS_USE_PDF_JS = false;
@@ -396,8 +442,8 @@
         const REGEX_TYPE_VIDEO = /\.(mp4|m4v|avi|mov|mpg|mpeg|webm|ogv|ogm|opus|mkv)/i;
         const REGEX_TYPE_AUDIO_VIDEO = /(mp3|m4a|aac|flac|ape|wav|ogg|oga|ogv|mp4|m4v|avi|mov|mpg|mpeg|webm|mkv)$/i;
         const REGEX_TYPE_IMAGE = /\.(gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|heic)$/i;
-        const REGEX_TYPE_CONTENT = /\.(pdf|html?|php|js|py|sh|xml|txt|xml|bat|docx?|xlsx?|s?css|json|java|c|log|\..+rc|cpp|h|hpp|srt|cfg|conf|ini|gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|cs|pl)$/i;
-        const REGEX_TYPE_CODE = /\.(kt|go|rst?|rb|dart|php|js|tsx?|py|z?sh|xml|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|yaml|yml|groovy|swift|properties|gradle|srt|m3u8?)$/i;
+        const REGEX_TYPE_CONTENT = /\.(pdf|html?|php|asp|js|py|sh|xml|txt|xml|bat|docx?|xlsx?|s?css|json|java|c|log|\..+rc|cpp|h|hpp|srt|vtt|cfg|conf|ini|gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|cs|pl)$/i;
+        const REGEX_TYPE_CODE = /\.(kt|go|ics|rst?|rb|dart|php|js|tsx?|py|z?sh|xml|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|yaml|yml|groovy|swift|properties|gradle|srt|sql|m3u8?)$/i;
         const REGEX_TYPE_CONTENT_FULL_SCREEN = /\.(gif|jpg|jpeg|apng|png|tiff|bmp|eps|pcx|webp|ico|icns|psd|xpm|wmf)$/i;
         const REGEX_TYPE_MARKDOWN = /\.(md)$/i;
 
@@ -437,6 +483,7 @@
             'html': ICON_HTML,
             'php': ICON_HTML,
             'htm': ICON_HTML,
+            'asp': ICON_HTML,
             'mhtm': ICON_HTML,
             'jpg': ICON_IMAGE,
             'bmp': ICON_IMAGE,
@@ -450,7 +497,9 @@
             'rst': ICON_TEXT,
             'txt': ICON_TEXT,
             'srt': ICON_TEXT,
+            'vtt': ICON_TEXT,
             'ini': ICON_TEXT,
+            'ics': ICON_TEXT,
             'cfg': ICON_TEXT,
             'log': ICON_TEXT,
             'conf': ICON_MISC,
@@ -485,6 +534,7 @@
             'cs': ICON_MISC,
             'pl': ICON_MISC,
             'swift': ICON_MISC,
+            'sql': ICON_MISC,
             'm3u': ICON_MISC,
             'm3u8': ICON_MISC,
         }
@@ -565,7 +615,7 @@
             return REGEX_TYPE_AUDIO.test(href) || REGEX_TYPE_VIDEO.test(href);
         }
 
-        function findMatchingFileByExtension(path, extension_regex) {
+        function findMatchingFileByExtension(path, extension_regex, isReturnMultiple) {
             
             var pathUnescaped = decodeURIComponent(path),
                 baseName, parentDir;
@@ -609,8 +659,13 @@
             );
 
             if (media_entries.length) {
-                var media_entry = media_entries[0];
-                return media_entry.href ? media_entry.href : media_entry;
+                if (isReturnMultiple) {
+                    return media_entries.filter(function () {
+                        return this.href;
+                    });
+                } else {
+                    return media_entries[0].href || media_entries[0];
+                }
             }
         }
 
@@ -646,7 +701,6 @@
             }
             // AUTOSKIP INTROs
             window.audioplayer.on('play', function (e) {
-                debugger;
                 if (e.target.src && e.target.currentTime == 0) {
                     for (var i = 0; i < SKIP_INTROS.length; i++) {
                         var regEx = SKIP_INTROS[i][0];
@@ -825,6 +879,16 @@
                             .attr('title', decodeURIComponent(baseFile))
                             .attr('src', mediaLink)
                             .show();
+
+                        // ADD VTT SUBS
+                        var vttLinks = findMatchingFileByExtension(mediaLink, /.*\.vtt/, true);
+
+                        if (vttLinks) {
+                            addSubtitleTracks(vttLinks, $link);
+                            // subs.attr('src', vttLinks[0].href);
+                        } else {
+                            videoplayer.empty();
+                        }
                         if (mediaLink.match(/\.mkv$/i)) {
                             videoplayer.attr('type', `type='video/x-matroska; codecs="theora, vorbis"'`);
                         } else if (videoplayer.attr('type')) {
@@ -924,7 +988,7 @@
                                         href: `${path}css/atelier-estuary-light.css`,
                                         type: "text/css"
                                     })).append($('<script/>', {
-                                        src: `${path}js/highlight.min.js`
+                                        src: `${path}js/highlight.min-11.7.0.js`
                                     }));
                                 }
                                 return data;
@@ -977,6 +1041,16 @@
             }
         }
 
+        function addSubtitleTracks(vttLinks, mediaLink) {
+            videoplayer.empty();
+            // strip extension
+            var commonPrefix = mediaLink.attr('title').replace(/\.[^/.]+$/,'');
+            vttLinks.each(function () {
+                var trackLabel = this.title.replace(commonPrefix, '').replace('\.vtt', '').replace(/^[-._/=,]/, '');
+                videoplayer.append(`<track label="${trackLabel}" srclang="zh" kind="subtitles" src="${this.href}"/>`)
+            });
+        }
+
         function getPath() {
             var curdir = window.top.location.hash;
             if (curdir) {
@@ -1001,23 +1075,29 @@
                 IS_HIGHLIGHTER_ENABLED = false;
             }
 
+            var filter = params.get('filter')
+
             $('#spinr').show();
 
             $.getJSON(curdir)
                 .done(function (data) {
                     // Natural sorting
                     if (window.Intl && window.Intl.Collator) {
-                        var naturalCollator = new Intl.Collator(undefined, {numeric: true, sensitivity: 'base'});
-                        data.sort((a, b) => a.is_dir === b.is_dir ? naturalCollator.compare(a.name, b.name) : a.is_dir ? -1 :1);
-
+                        var naturalCollator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+                        data.sort((a, b) => a.is_dir === b.is_dir ? naturalCollator.compare(a.name, b.name) : a.is_dir ? -1 : 1);
                     }
                     var filelist = document.getElementById('filelist');
-                    $(filelist).html(""); 
+                    $(filelist).empty(); 
 
                     data.forEach(element => {
                         if (!includeHidden && element.name.charAt(0) == '.') {
                             return;
                         }
+
+                        if (filter && !element.is_dir && !element.is_symlink && !RegExp(filter).test(element.name)) {
+                            return;
+                        }
+
                         var type, href, icon, path = element.url.replace(/^\.\//, '');
 
                         if (element.is_dir) {
@@ -1069,7 +1149,9 @@
 
             $('#docview').on('load', function (e) {
                 var docHead = $(e.target).contents().find("head");
-                docHead.append('<style type="text/css">body{height:100%; position:relative} body>img {display:block; text-align:center; position:absolute; max-width:100%; max-height:100%; margin:auto; top:0; bottom: 0; left:0; right: 0}</style>');
+                if (e.target.src.match(REGEX_TYPE_IMAGE)) {
+                    docHead.append('<style type="text/css">body{height:100%; position:relative} body>img {display:block; text-align:center; position:absolute; max-width:100%; max-height:100%; margin:auto; top:0; bottom: 0; left:0; right: 0}</style>');
+                }
             });
         });
     </script>
