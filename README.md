@@ -2,7 +2,7 @@
 
 An HTML+JS media browser for navigating file systems that contain text files (supported formats are displayed with source code highlighting) images, audio or video files. For video/audio files associated content such as PDF, HTML, or TXT can be displayed based on file name matching rules.
 
-The original use case is viewing audio or video files with associated notes in PDF, HTML or TXT format. Clicking a media file will open it in the media preview panel and search for a matching PDF or HTML file with the same base name. If a matching content file was found it will be loaded in the content preview panel below the media panel.
+The original use case is viewing audio or video files with associated notes in PDF, HTML, Markdown, or TXT format. Clicking a media file will open it in the media preview panel and search for a matching PDF, HTML, etc file with the same base name. If a matching content file was found it will be loaded in the content preview panel below the media panel.
 
 The app does not include a web server and works with the [caddy server](https://caddyserver.com/). 
 
@@ -25,11 +25,12 @@ http:// {
 
 #### Features:
 
-* displaying PDF and HTML content with associated audio/video files
+* displaying PDF, HTML, Markdown content with associated audio/video files
 * adjustable playback speed for media files
 * resizable navigation and content panels
 * markdown rendering for `.md` files
 * syntax highlighting for source code files
+* automatic detection and loading of WebVTT subtitles for video files
 
 Example: if a folder contains a PDF file named `lesson-01.pdf` and a video file named `lesson-01.mp4`, then clicking the PDF file will display it in the content panel while the video will start playing in the media panel above.
 
