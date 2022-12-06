@@ -1055,7 +1055,6 @@
             var curdir = window.top.location.hash;
             if (curdir) {
                 curdir = curdir.slice(1);
-                curdir = curdir.endsWith('/') ? curdir : `${curdir}/`;
             }
             return curdir || '/';
         }
