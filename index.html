@@ -1161,7 +1161,7 @@
                     $(filelist).empty(); // REMOVE previous filelist
 
                     // strip json name if the listing is from a json file
-                    curdir = curdir.replace(/index\.json$/, '');
+                    var curdirBase = curdir.replace(/index\.json$/, '');
 
                     data.forEach(element => {
                         if (!includeHidden && element.name.charAt(0) == '.') {
@@ -1173,19 +1173,17 @@
                         }
 
                         var type, href, icon, path = element.url.replace(/^\.\//, '');
-                        // icon = (is_dir and ICON_DIR) or icons_by_type.get(extension.lower(), ICON_UNKNOWN)
 
                         if (element.is_dir) {
                             type = 'dir';
                             icon = ICON_DIR;
-                            href = `${window.location.pathname}#${curdir}${path}`;
-                            // href = `${window.location.pathname}?p=${curdir}${path}`;
+                            href = `${window.location.pathname}#${curdirBase}${path}`;
                         } else {
                             type = 'file';
                             var extension = element.name.split('.').pop().toLowerCase();
                             icon = ICONS_BY_TYPE[extension] || ICON_UNKNOWN;
 
-                            href = `${curdir}${path}`;
+                            href = `${curdirBase}${path}`;
                         }
 
                         var li = document.createElement('li');
