@@ -1092,6 +1092,9 @@
                     }
                     var filelist = document.getElementById('filelist');
                     $(filelist).empty(); 
+                
+                    // strip json file name if the listing came from a json file
+                    curdir = curdir.replace(/index\.json$/, '/');
 
                     data.forEach(element => {
                         if (!includeHidden && element.name.charAt(0) == '.') {
