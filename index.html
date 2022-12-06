@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+    <!-- http://www.dreamchain.com/static/angular-split-pane/mediabros/nested.html
+        GITHUb: https://github.com/shagstrom/angular-split-pane
+    -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,6 +17,10 @@
     <script src="js/angular.min.js"></script>
     <script src="js/split-pane.js"></script>
     <script src="js/angular-split-pane.js"></script>
+    <!-- <script src="js/markdown-parse.js"></script> -->
+    <!-- https://github.com/markdown-it/markdown-it -->
+    <!-- <script src="js/markdown-it.min.js"></script> -->
+    <!-- https://marked.js.org/#installation -->
     <script src="js/marked.min.js"></script>
     <link rel="apple-touch-icon" sizes="57x57" href="ico/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="ico/apple-icon-60x60.png">
@@ -452,12 +459,18 @@
         const ICON_PDF = "&#128195;" // 📃
         const ICON_DIR = "&#128193;" // 📁
         const ICON_HTML = "&#x1F30D;" // 🌍
+        // const ICON_IMAGE = "&#xFE0F;"
         const ICON_IMAGE = "&#x1F305;" // 🌅
+        // const ICON_IMAGE = "&#x1F307;" // 🌇
         const ICON_UNKNOWN = "&#x2753;" // ❓
         const ICON_BACK = "&#x21B0;" // ↰
         const ICON_TEXT = "&#x1F4C3;" // 📃
         const ICON_MISC = "&#x1F9E9;" // 🧩
+        // const ICON_MARKDOWN = "&#x24C2;" // Ⓜ️
         const ICON_MARKDOWN = "&#x1F17C;" // 🅼
+        //         🅼
+        // NEGATIVE SQUARED LATIN CAPITAL LETTER M
+        // Unicode: U+1F17C, UTF-8: F0 9F 85 BC
 
         const ICONS_BY_TYPE = {
             'pdf': ICON_PDF,
@@ -541,13 +554,20 @@
 
         AUTO_PLAY_NEXT = true;
 
-        // CONFIGURATION for custom matching between text files and media
-        // e.g. PDF and MP3/MP4
         const URL_TRANSFORMATIONS = [
-            // LINK REGEX           MATCHING LINK REPLACEMENT
+            // LINK REGEX                                        MATCHING LINK REPLACEMENT
             [/clo_(\d{3}).*\.mp3/i, "../PDF/CLO_$1_Vocab.pdf"],
+            // chinesepod content links (pdf, html)
+            [/(.*chinesepod.*?)(?:_ex)?\.(pdf|html?)/i, "../$1pr.aac"],
+            // chinesepod media links (aac, mp3..)
+            [/(.*chinesepod.*?)(?:(dg|pr|rv))?\.(aac|mp3|m4a)/i, "pdf/$1.pdf"],
+
+            // chinese pod collection
             [/(.*?)pr+([^\.]+)\.mp3/i, "$1$2.pdf"],
             [/([^\s,-]+)\b([^\.]+)\.(pdf)/i, "$1pr$2.mp3"]
+            // [/(.*).pdf/i,                     function (match, capture) {
+            //     return match.replace(/-/g, ' ') + ' ';
+            // }]
         ];
 
         const SKIP_INTROS = [
@@ -608,6 +628,7 @@
                 if (nextLink && isPlayableLink(nextLink.attr('href'))) {
                     nextLink.click();
                 }
+                // lastClicked.closest('li').next('li').find('a').click();
             }
         }
 
@@ -616,7 +637,7 @@
         }
 
         function findMatchingFileByExtension(path, extension_regex, isReturnMultiple) {
-            
+
             var pathUnescaped = decodeURIComponent(path),
                 baseName, parentDir;
 
@@ -649,7 +670,7 @@
             // remove extension
             var base_path = path.substring(0, path.lastIndexOf('.'));
 
-            // find first media link fuzzy matching current URL
+            // search for links fuzzy matching given URL
             var matched = $("[href*='" + base_path + "' i]");
 
             var media_entries = matched.filter(
@@ -666,6 +687,8 @@
                 } else {
                     return media_entries[0].href || media_entries[0];
                 }
+                // var media_entry = ;
+                // return media_entry.href ? media_entry.href : media_entry;
             }
         }
 
@@ -685,6 +708,16 @@
             return isOk;
         }
 
+        function fullscreenOn(p) {
+            var fs = p.requestFullscreen || p.webkitRequestFullscreen || p.mozRequestFullScreen || p.oRequestFullscreen || p.msRequestFullscreen;
+            fs.call(p);
+        }
+
+        function fullscreenOf(p) {
+            var fsx = p.exitFullScreen || p.webkitExitFullScreen || p.mozExitFullScreen || p.oExitFullScreen || p.msExitFullScreen;
+            fsx.call(p);
+        }
+
         function attachEventListeners() {
 
             window.audioplayer = $('#audioplayer');
@@ -694,12 +727,15 @@
             // video play/pause on click (firefox and safari already do this OOTB)
             if (!window.safari && !window.netscape) {
                 videoplayer.click(function (e) {
+                    // console.log(e);
                     this.paused ? this.play() : this.pause();
                     e.preventDefault();
                     e.stopImmediatePropagation();
                 });
             }
-            // AUTOSKIP INTROs
+            /*
+            */
+            // AUTOSKIP INTRO
             window.audioplayer.on('play', function (e) {
                 if (e.target.src && e.target.currentTime == 0) {
                     for (var i = 0; i < SKIP_INTROS.length; i++) {
@@ -711,6 +747,8 @@
                     }
                 }
             });
+
+
             // handle key navigation
             document.onkeydown = function (e) {
                 e.preventDefault();
@@ -740,12 +778,11 @@
                         if (!(e.shiftKey || e.ctrlKey || e.altKey || e.metaKey)) {
                             if (!window.isFs) {
                                 window.isFs = true;
-                                var fs = p.requestFullscreen || p.webkitRequestFullscreen || p.mozRequestFullScreen || p.oRequestFullscreen || p.msRequestFullscreen;
-                                fs.call(p);
+                                fullscreenOn(p);
+
                             } else {
                                 window.isFs = false;
-                                var fsx = p.exitFullScreen || p.webkitExitFullScreen || p.mozExitFullScreen || p.oExitFullScreen || p.msExitFullScreen;
-                                fsx.call(p);
+                                fullscreenOff(p)
                             }
                         }
                         break;
@@ -789,6 +826,7 @@
                     // document.location.hash = path;
                 } else {
                     // it's a folder; navigate
+                    // var chunks = ;
                     var goToDir = $link.attr("href").split('#')[1];
                     document.title = unescape(goToDir);
                     loadData(goToDir);
@@ -836,7 +874,6 @@
 
                 // when audio or Video file is clicked then try to find the corresponding content file
                 if (isMediaLinkClick) {
-                    // special cases
                     var partial_path = path
                         .replace('_video', '')
                         .replace('_review', '')
@@ -857,8 +894,14 @@
                 var _scope = angular.element($("[ng-controller]")).scope();
 
                 if (isAudioDefined) {
+                    // var isValidPath = true;
 
                     if (audioplayer.attr('src') !== mediaLink) {
+
+                        // // do a HEAD request to check if the link is valid before loading
+                        // if (!isMediaLinkClick && !isValidUrl(mediaLnk)) {
+                        //     isValidPath = false;
+                        // }
                         if (videoplayer.attr('src')) {
                             videoplayer.attr('src', '')
                         }
@@ -866,6 +909,7 @@
                         audioplayer
                             .attr('src', mediaLink)
                             .attr('title', decodeURIComponent(mediaLink))
+                            // .attr('title', decodeURIComponent(baseFile))
                             .show();
                     }
                 } else if (isVideoDefined) {
@@ -875,8 +919,7 @@
                     audioplayer.hide();
 
                     if (mediaLink && videoplayer.attr('src') !== mediaLink) {
-                        videoplayer
-                            .attr('title', decodeURIComponent(baseFile))
+                        videoplayer.attr('title', decodeURIComponent(baseFile))
                             .attr('src', mediaLink)
                             .show();
 
@@ -890,6 +933,8 @@
                             videoplayer.empty();
                         }
                         if (mediaLink.match(/\.mkv$/i)) {
+                            // videoplayer.attr('type', `type='video/mp4'`);
+                            // *TRY* to play matroska (only crhome and not properly supported)
                             videoplayer.attr('type', `type='video/x-matroska; codecs="theora, vorbis"'`);
                         } else if (videoplayer.attr('type')) {
                             videoplayer.attr('type', '');
@@ -917,6 +962,7 @@
                 }
 
                 audioplayer.on('error', function () {
+                    // audioplayer.hide();
                     console.log('AUDIO ERROR', this);
 
                     if (!isVideoDefined) {
@@ -952,14 +998,18 @@
                                     iframe_head.append($("<link/>", {
                                         rel: "stylesheet",
                                         id: 'flag_markdown',
-                                        href: `${path == '/' ? '' : path}css/splendor.css`,
+                                        // https://raw.githubusercontent.com/markdowncss/splendor/master/css/splendor.min.css
+                                        href: `${path == '/' ? '' : path}css/modest.css`,
                                         type: "text/css"
                                     }));
+                                    // iframe_head.attr('id', 'flag_markdown');
                                 }
                                 return data;
                             })
                             .then(data => {
+                                // window.md = window.md || window.markdownit();
                                 var markdown_content = marked(data);
+                                // var markdown_content = parse_markdown(data);
                                 contentPanel.contents().find('body').html(markdown_content);
                                 $('#spinr_content').hide();
                                 contentPanel.contents().scrollTop(0);
@@ -970,7 +1020,7 @@
 
                         contentPanel.attr('src', null);
                         // refresh reference
-                        
+
                         fetch(contentLink)
                             .then(resp => resp.text())
                             .then(data => {
@@ -990,6 +1040,11 @@
                                     })).append($('<script/>', {
                                         src: `${path}js/highlight.min-11.7.0.js`
                                     }));
+                                    // .append($('<script/>', {
+                                    //     html: 'document.addEventListener("DOMFrameContentLoaded", function() {debugger; hljs.highlightAll();});'
+                                    // }));
+                                    // set marker
+                                    // iframe_head.attr('id', 'flag_highlight');
                                 }
                                 return data;
                             })
@@ -1005,8 +1060,8 @@
                                         body.html(`<pre><code>${page_content}</code></pre>`);
                                     }
                                     body.append("<script>(window.hljs ? window.hljs.highlightAll() : setTimeout(window.hljs.highlightAll(), 50));</" + "script>");
-                                        $('#spinr_content').hide();
-                                        contentPanel.contents().scrollTop(0);
+                                    $('#spinr_content').hide();
+                                    contentPanel.contents().scrollTop(0);
                                 });
                             });
                     } else {
@@ -1018,6 +1073,8 @@
             });
         }
 
+        /* https://stackoverflow.com/a/20463021/191246 
+         */
         function fileSizeIEC(a, b, c, d, e) {
             return (b = Math, c = b.log, d = 1024, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(e ? 2 : 0) +
                 ' ' + (e ? 'KMGTPEZY'[--e] + 'B' : 'b')
@@ -1027,10 +1084,14 @@
             var curdir = getPath();
 
             if (curdir) {
+                // e.preventDefault();
+                console.log('DBG: goUp() FROM ', curdir);
                 if (curdir.endsWith('/')) {
                     curdir = curdir.slice(0, -1);
                 }
                 var parentDir = curdir.substring(0, curdir.lastIndexOf('/'));
+                console.log('DBG: goUp() TO ', parentDir);
+                // resetFileList();
                 window.top.location.hash = parentDir;
                 document.title = unescape(parentDir);
                 loadData(parentDir);
@@ -1052,11 +1113,13 @@
         }
 
         function getPath() {
+            // var params = new URL(document.location.href).searchParams;
             var curdir = window.top.location.hash;
             if (curdir) {
                 curdir = curdir.slice(1);
             }
             return curdir || '/';
+            // return params.get('p') || params.get('path') || '/';
         }
 
         function isTrue(val) {
@@ -1065,15 +1128,16 @@
 
         function loadData(path) {
             var curdir = path || getPath();
-            
+
             // append trailing slash for paths
             if (/^\/.*[^\/]$/.test(curdir)) {
                 curdir = `${curdir}/`;
             }
+
             
             var params = new URL(document.location.href).searchParams;
             var includeHidden = isTrue(params.get('hidden'));
-            
+
             // supress highliter with 'nohl=true'
             if (isTrue(params.get('nohl'))) {
                 IS_HIGHLIGHTER_ENABLED = false;
@@ -1085,15 +1149,18 @@
 
             $.getJSON(curdir)
                 .done(function (data) {
+                    // console.log(data);
+
                     // Natural sorting
                     if (window.Intl && window.Intl.Collator) {
                         var naturalCollator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
                         data.sort((a, b) => a.is_dir === b.is_dir ? naturalCollator.compare(a.name, b.name) : a.is_dir ? -1 : 1);
                     }
+
                     var filelist = document.getElementById('filelist');
-                    $(filelist).empty(); 
-                
-                    // strip json file name if the listing came from a json file
+                    $(filelist).empty(); // REMOVE previous filelist
+
+                    // strip json name if the listing is from a json file
                     curdir = curdir.replace(/index\.json$/, '');
 
                     data.forEach(element => {
@@ -1106,11 +1173,13 @@
                         }
 
                         var type, href, icon, path = element.url.replace(/^\.\//, '');
+                        // icon = (is_dir and ICON_DIR) or icons_by_type.get(extension.lower(), ICON_UNKNOWN)
 
                         if (element.is_dir) {
                             type = 'dir';
                             icon = ICON_DIR;
                             href = `${window.location.pathname}#${curdir}${path}`;
+                            // href = `${window.location.pathname}?p=${curdir}${path}`;
                         } else {
                             type = 'file';
                             var extension = element.name.split('.').pop().toLowerCase();
@@ -1177,6 +1246,9 @@
                         <div class="inlined btn-back">
                             <a title="parent folder" href="#" onclick="goUp();return false;">&#x21B0;</a>
                         </div>
+                        <!-- <div class="inlined m3u">
+                            <a target="_blank" href="medialist.m3u">M3U</a>
+                        </div> -->
                     </nav>
                     <div id="spinr" class="ispinner ispinner-large">
                         <div class="ispinner-blade"></div>
@@ -1210,6 +1282,8 @@
                             </select>
 
                             <video onended="playNext();" style="display:none" id="videoplayer" autoplay controls>
+                                <track label="WebVTT subtitles" id="subs" default srclang="zh" kind="subtitles"
+                                    src="" />
                             </video>
                         </div>
                     </div>
