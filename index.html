@@ -1068,7 +1068,7 @@
             var curdir = path || getPath();
             
             // append trailing slash for paths
-            if (!/^\/.*[^\/]$/.test(curdir)) {
+            if (/^\/.*[^\/]$/.test(curdir)) {
                 curdir = `${curdir}/`;
             }
             
