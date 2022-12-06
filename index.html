@@ -1066,7 +1066,12 @@
 
         function loadData(path) {
             var curdir = path || getPath();
-            curdir = curdir.endsWith('/') ? curdir : `${curdir}/`;
+            
+            // append trailing slash for paths
+            if (!/^\/.*[^\/]$/.test(curdir)) {
+                curdir = `${curdir}/`;
+            }
+            
             var params = new URL(document.location.href).searchParams;
             var includeHidden = isTrue(params.get('hidden'));
             
