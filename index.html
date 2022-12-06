@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- http://www.dreamchain.com/static/angular-split-pane/mediabros/nested.html
-        GITHUb: https://github.com/shagstrom/angular-split-pane
-    -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -707,7 +703,6 @@
 
             return isOk;
         }
-
         function fullscreenOn(p) {
             var fs = p.requestFullscreen || p.webkitRequestFullscreen || p.mozRequestFullScreen || p.oRequestFullscreen || p.msRequestFullscreen;
             fs.call(p);
@@ -779,10 +774,9 @@
                             if (!window.isFs) {
                                 window.isFs = true;
                                 fullscreenOn(p);
-
                             } else {
                                 window.isFs = false;
-                                fullscreenOff(p)
+                                fullscreenOff(p);
                             }
                         }
                         break;
@@ -1105,7 +1099,7 @@
         function addSubtitleTracks(vttLinks, mediaLink) {
             videoplayer.empty();
             // strip extension
-            var commonPrefix = mediaLink.attr('title').replace(/\.[^/.]+$/,'');
+            var commonPrefix = mediaLink.attr('title').replace(/\.[^/.]+$/, '');
             vttLinks.each(function () {
                 var trackLabel = this.title.replace(commonPrefix, '').replace('\.vtt', '').replace(/^[-._/=,]/, '');
                 videoplayer.append(`<track label="${trackLabel}" srclang="zh" kind="subtitles" src="${this.href}"/>`)
@@ -1128,13 +1122,6 @@
 
         function loadData(path) {
             var curdir = path || getPath();
-
-            // append trailing slash for paths
-            if (/^\/.*[^\/]$/.test(curdir)) {
-                curdir = `${curdir}/`;
-            }
-
-            
             var params = new URL(document.location.href).searchParams;
             var includeHidden = isTrue(params.get('hidden'));
 
@@ -1161,7 +1148,12 @@
                     $(filelist).empty(); // REMOVE previous filelist
 
                     // strip json name if the listing is from a json file
-                    var curdirBase = curdir.replace(/index\.json$/, '');
+                    var curdirBase = curdir.replace(/[a-z]+\.json$/, '');
+
+                    // append trailing slash for paths
+                    if (/^\/.*[^\/]$/.test(curdirBase)) {
+                        curdirBase = `${curdirBase}/`;
+                    }
 
                     data.forEach(element => {
                         if (!includeHidden && element.name.charAt(0) == '.') {
