@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,10 +14,7 @@
     <script src="js/angular.min.js"></script>
     <script src="js/split-pane.js"></script>
     <script src="js/angular-split-pane.js"></script>
-    <!-- <script src="js/markdown-parse.js"></script> -->
-    <!-- https://github.com/markdown-it/markdown-it -->
-    <!-- <script src="js/markdown-it.min.js"></script> -->
-    <!-- https://marked.js.org/#installation -->
+
     <script src="js/marked.min.js"></script>
     <link rel="apple-touch-icon" sizes="57x57" href="ico/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="ico/apple-icon-60x60.png">
@@ -393,25 +391,27 @@
 
         /* webvtt */
         video::cue {
-            /* background-image: linear-gradient(to bottom, dimgray, lightgray); */
+            /* background-image: linear-gradient(to bottom, dimgray, lightgray);
             background-color: rgba(0, 0, 0, 0.8);
+            */
             color: #ffc800;
+            border: 3px solid black;
         }
 
         video::cue(b) {
             color: rgb(51, 216, 18);
-            font-weight: normal;
+            border: 3px solid black;
         }
 
         video::cue(i) {
             color: #00bafd;
-            font-style: normal;
+            border: 3px solid black;
         }
 
         video::cue(u) {
             text-decoration: none;
             color: #ff00ee;
-            font-style: normal;
+            border: 3px solid black;
         }
 
         video::cue(.w) {
@@ -708,7 +708,7 @@
             fs.call(p);
         }
 
-        function fullscreenOf(p) {
+        function fullscreenOff(p) {
             var fsx = p.exitFullScreen || p.webkitExitFullScreen || p.mozExitFullScreen || p.oExitFullScreen || p.msExitFullScreen;
             fsx.call(p);
         }
@@ -1163,8 +1163,8 @@
                         if (filter && !element.is_dir && !element.is_symlink && !RegExp(filter).test(element.name)) {
                             return;
                         }
-
-                        var type, href, icon, path = element.url.replace(/^\.\//, '');
+                        var _url = element.url || element.name;
+                        var type, href, icon, path = _url.replace(/^\.\//, '');
 
                         if (element.is_dir) {
                             type = 'dir';
