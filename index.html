@@ -14,9 +14,6 @@
     <script src="js/angular.min.js"></script>
     <script src="js/split-pane.js"></script>
     <script src="js/angular-split-pane.js"></script>
-    <!-- <script src="js/markdown-parse.js"></script> -->
-    <!-- https://github.com/markdown-it/markdown-it -->
-    <!-- <script src="js/markdown-it.min.js"></script> -->
     <!-- https://marked.js.org/#installation -->
     <script src="js/marked.min.js"></script>
     <link rel="apple-touch-icon" sizes="57x57" href="ico/apple-icon-57x57.png">
@@ -394,9 +391,6 @@
 
         /* webvtt */
         video::cue {
-            /* background-image: linear-gradient(to bottom, dimgray, lightgray);
-            background-color: rgba(0, 0, 0, 0.8);
-            */
             color: #ffc800;
             border: 3px solid black;
         }
@@ -428,16 +422,6 @@
         video::cue(.p) {
             color: rgb(255, 0, 255);
         }
-
-        /* video::cue(eng) {
-            color: rgb(221, 0, 255);
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        video::cue(font) {
-            color: rgb(0, 255, 255);
-            font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        } */
     </style>
     <script type="text/javascript">
         const IS_ALWAYS_USE_PDF_JS = false;
@@ -627,7 +611,6 @@
                 if (nextLink && isPlayableLink(nextLink.attr('href'))) {
                     nextLink.click();
                 }
-                // lastClicked.closest('li').next('li').find('a').click();
             }
         }
 
@@ -686,8 +669,6 @@
                 } else {
                     return media_entries[0].href || media_entries[0];
                 }
-                // var media_entry = ;
-                // return media_entry.href ? media_entry.href : media_entry;
             }
         }
 
@@ -725,7 +706,6 @@
             // video play/pause on click (firefox and safari already do this OOTB)
             if (!window.safari && !window.netscape) {
                 videoplayer.click(function (e) {
-                    // console.log(e);
                     this.paused ? this.play() : this.pause();
                     e.preventDefault();
                     e.stopImmediatePropagation();
@@ -816,14 +796,10 @@
                     })
                     .attr('href');
 
-                console.log(`DBG: Link clicked ${$link.text()} path=${path}`);
-
-
                 if ($link.data('type') === 'file') {
-                    // document.location.hash = path;
+                    document.title = path;
                 } else {
                     // it's a folder; navigate
-                    // var chunks = ;
                     var goToDir = $link.attr("href").split('#')[1];
                     document.title = unescape(goToDir);
                     loadData(goToDir);
@@ -891,14 +867,9 @@
                 var _scope = angular.element($("[ng-controller]")).scope();
 
                 if (isAudioDefined) {
-                    // var isValidPath = true;
 
                     if (audioplayer.attr('src') !== mediaLink) {
 
-                        // // do a HEAD request to check if the link is valid before loading
-                        // if (!isMediaLinkClick && !isValidUrl(mediaLnk)) {
-                        //     isValidPath = false;
-                        // }
                         if (videoplayer.attr('src')) {
                             videoplayer.attr('src', '')
                         }
@@ -906,7 +877,6 @@
                         audioplayer
                             .attr('src', mediaLink)
                             .attr('title', decodeURIComponent(mediaLink))
-                            // .attr('title', decodeURIComponent(baseFile))
                             .show();
                     }
                 } else if (isVideoDefined) {
@@ -925,13 +895,11 @@
 
                         if (vttLinks) {
                             addSubtitleTracks(vttLinks, $link);
-                            // subs.attr('src', vttLinks[0].href);
                         } else {
                             videoplayer.empty();
                         }
                         if (mediaLink.match(/\.mkv$/i)) {
-                            // videoplayer.attr('type', `type='video/mp4'`);
-                            // *TRY* to play matroska (only crhome and not properly supported)
+                            // *TRY* to play matroska (only chrome and not properly supported)
                             videoplayer.attr('type', `type='video/x-matroska; codecs="theora, vorbis"'`);
                         } else if (videoplayer.attr('type')) {
                             videoplayer.attr('type', '');
@@ -999,14 +967,11 @@
                                         href: `${path == '/' ? '' : path}css/modest.css`,
                                         type: "text/css"
                                     }));
-                                    // iframe_head.attr('id', 'flag_markdown');
                                 }
                                 return data;
                             })
                             .then(data => {
-                                // window.md = window.md || window.markdownit();
                                 var markdown_content = marked(data);
-                                // var markdown_content = parse_markdown(data);
                                 contentPanel.contents().find('body').html(markdown_content);
                                 $('#spinr_content').hide();
                                 contentPanel.contents().scrollTop(0);
@@ -1015,8 +980,8 @@
                     } else if (IS_HIGHLIGHTER_ENABLED && contentLink.match(REGEX_TYPE_CODE)) {
                         $('#spinr_content').show();
 
-                        contentPanel.attr('src', null);
                         // refresh reference
+                        contentPanel.attr('src', null);
 
                         fetch(contentLink)
                             .then(resp => resp.text())
@@ -1037,11 +1002,6 @@
                                     })).append($('<script/>', {
                                         src: `${path}js/highlight.min-11.7.0.js`
                                     }));
-                                    // .append($('<script/>', {
-                                    //     html: 'document.addEventListener("DOMFrameContentLoaded", function() {debugger; hljs.highlightAll();});'
-                                    // }));
-                                    // set marker
-                                    // iframe_head.attr('id', 'flag_highlight');
                                 }
                                 return data;
                             })
@@ -1070,8 +1030,7 @@
             });
         }
 
-        /* https://stackoverflow.com/a/20463021/191246 
-         */
+        /* https://stackoverflow.com/a/20463021/191246 */
         function fileSizeIEC(a, b, c, d, e) {
             return (b = Math, c = b.log, d = 1024, e = c(a) / c(d) | 0, a / b.pow(d, e)).toFixed(e ? 2 : 0) +
                 ' ' + (e ? 'KMGTPEZY'[--e] + 'B' : 'b')
@@ -1081,20 +1040,15 @@
             var curdir = getPath();
 
             if (curdir) {
-                // e.preventDefault();
-                console.log('DBG: goUp() FROM ', curdir);
                 if (curdir.endsWith('/')) {
                     curdir = curdir.slice(0, -1);
                 }
                 var parentDir = curdir.substring(0, curdir.lastIndexOf('/'));
-                console.log('DBG: goUp() TO ', parentDir);
-                // resetFileList();
                 window.top.location.hash = parentDir;
                 document.title = unescape(parentDir);
                 loadData(parentDir);
 
             } else {
-                console.log('DBG: history back');
                 window.history.back();
             }
         }
@@ -1104,19 +1058,17 @@
             // strip extension
             var commonPrefix = mediaLink.attr('title').replace(/\.[^/.]+$/, '');
             vttLinks.each(function () {
-                var trackLabel = this.title.replace(commonPrefix, '').replace('\.vtt', '').replace(/^[-._/=,]/, '');
+                var trackLabel = this.dataset.name.replace(commonPrefix, '').replace('\.vtt', '').replace(/^[-._/=,]/, '');
                 videoplayer.append(`<track label="${trackLabel}" srclang="zh" kind="subtitles" src="${this.href}"/>`)
             });
         }
 
         function getPath() {
-            // var params = new URL(document.location.href).searchParams;
             var curdir = window.top.location.hash;
             if (curdir) {
                 curdir = curdir.slice(1);
             }
             return curdir || '/';
-            // return params.get('p') || params.get('path') || '/';
         }
 
         function isTrue(val) {
@@ -1139,9 +1091,7 @@
 
             $.getJSON(curdir)
                 .done(function (data) {
-                    // console.log(data);
-
-                    // Natural sorting
+                    // Natural sort
                     if (window.Intl && window.Intl.Collator) {
                         var naturalCollator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
                         data.sort((a, b) => {
@@ -1187,18 +1137,23 @@
                         var li = document.createElement('li');
 
                         var preview = '';
+
+                        var lastModified = element.mod_time || element.time;
+
+                        var fileSize = isDir ? '' : fileSizeIEC(element.size);
+
                         if (REGEX_TYPE_IMAGE.test(href) && element.size < 1048576) {
 
-                            preview = `<a class="imglnk" data-type="file" title="️${element.name} [${fileSizeIEC(element.size)}]" href="${href}">
+                            preview = `<a class="imglnk" data-type="file" title="️${element.name} [${fileSize}] &#x1F55D; ${lastModified}" href="${href}">
                                     <div class="preview">
                                         <img src="${href}">
                                     </div>
                                 </a>`;
                         }
 
-                        $(li).html(`${preview}\n<a class="fileinfo" data-type="${type}" title="${element.name}" href="${href}">
+                        $(li).html(`${preview}\n<a class="fileinfo" data-type="${type}" data-name="${element.name}" title="${element.name} &#x1F55D; ${lastModified}" href="${href}">
                                 <span class="fname">${icon}&nbsp;${element.name}</span>
-                                <span class="size">${isDir ? '' : fileSizeIEC(element.size)}</span>
+                                <span class="size">${fileSize}</span>
                             </a>`);
                         filelist.appendChild(li);
                     });
