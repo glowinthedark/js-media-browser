@@ -1046,6 +1046,10 @@
                     curdir = curdir.slice(0, -1);
                 }
                 var parentDir = curdir.substring(0, curdir.lastIndexOf('/'));
+
+                if (window.location.href.indexOf(USER_INDEX_JSON) != -1) {
+                    parentDir = `${parentDir}/${USER_INDEX_JSON}`;
+                }
                 window.top.location.hash = parentDir;
                 document.title = unescape(parentDir);
                 loadData(parentDir);
