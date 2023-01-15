@@ -56,7 +56,7 @@ For more details refer to [mozilla browser media compatibility table](https://de
 
 The approach is build on `caddy` being able to serve directory indexes as JSON when requested with the `Content-Type: application/json` header. This enables dynamic client-side rendering of a directory tree that can be used to navigate remote content.
 
-The client-side can also accept static user provided `index.json` which can be generated, for example, the output of the `tree` command line utility which can be filtered with `jq` as follows:
+The client-side can also accept static user provided `index.json` file which can be generated, for example, with the `tree` command line utility which can be filtered with `jq` as follows:
 
 ```bash
 tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s | jq '.[0].contents' > index.json
@@ -64,6 +64,10 @@ tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s | jq '.[0].contents' > inde
 The command above will only include MP4, SRT and VTT files. 
 
 Adjust to your own needs or remove the entire `-P ...` part to include all files.
+
+To browse a folder via your custom `index.json` file open the corresponding target folder with:
+
+    http://example.com/path/to/project/mediabro24caddy/index.html#/path/to/data/folder/index.json
 
 #### Advanced example: exclude files by glob, include by glob, include custom last modified date and size:
 ```bash
