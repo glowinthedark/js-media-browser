@@ -74,14 +74,16 @@ To browse a folder via your custom `index.json` file open the corresponding targ
 tree -I 'blood*|clotting*|Ohio*' -L 1 -P '*.mp3|*.flac|*.mp4|*.srt|*.vtt' --ignore-case -J -D --timefmt '%d-%b-%Y %H:%M' --dirsfirst -s | jq  '.[0].contents'
 ```
 
-`-I` = ignore file patterns
-`-L ` = one level deep
-`-P '*.mp3|*.flac|*.mp4|*.srt|*.vtt'` = only include these file extensions
-`-J` = JSON output
-`-s` = include file size
-`-D` = include last modified date
-` --timefmt '%d-%b-%Y %H:%M'` = set custom time format
-`--dirsfirst` = directories first
+| flag                                      | description                        |
+| ----------------------------------------- | ---------------------------------- |
+| `-I "*ignored*"`                          | ignore file patterns               |
+| `-L`                                      | one level deep                     |
+| `-P "*.mp3\|*.flac\|*.mp4\|*.srt\|*.vtt"` | only include these file extensions |
+| `-J`                                      | JSON output                        |
+| `-s`                                      | include file size                  |
+| `-D`                                      | include last modified date         |
+| `--timefmt '%d-%b-%Y %H:%M'`              | set custom time format             |
+| `--dirsfirst`                             | directories first                  |
 
 
 ##### Install `tree` and `jq` on MacOS:
