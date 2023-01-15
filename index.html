@@ -426,7 +426,9 @@
     <script type="text/javascript">
         const IS_ALWAYS_USE_PDF_JS = false;
 
-        var IS_HIGHLIGHTER_ENABLED = true;
+        const IS_HIGHLIGHTER_ENABLED = true;
+
+        const USER_INDEX_JSON = 'index.json';
 
         const REGEX_TYPE_AUDIO = /\.(mp3|m4a|aac|flac|ape|wav|ogg|oga)$/i;
         const REGEX_TYPE_VIDEO = /\.(mp4|m4v|avi|mov|mpg|mpeg|webm|ogv|ogm|opus|mkv)/i;
@@ -1125,7 +1127,12 @@
                         if (isDir) {
                             type = 'dir';
                             icon = ICON_DIR;
-                            href = `${window.location.pathname}#${curdirBase}${path}`;
+                            if (window.location.href.indexOf(USER_INDEX_JSON) != -1) {
+                                href = `${window.location.pathname}#${curdirBase}${path}${USER_INDEX_JSON}`;
+                            } else {
+                                href = `${window.location.pathname}#${curdirBase}${path}`;
+                            }
+
                         } else {
                             type = 'file';
                             var extension = element.name.split('.').pop().toLowerCase();
