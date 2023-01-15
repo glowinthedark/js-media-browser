@@ -1045,6 +1045,10 @@
                 if (curdir.endsWith('/')) {
                     curdir = curdir.slice(0, -1);
                 }
+                if (window.location.href.indexOf(`/${USER_INDEX_JSON}`) != -1) {
+                    curdir = curdir.replace(`/${USER_INDEX_JSON}`, '');
+                }
+
                 var parentDir = curdir.substring(0, curdir.lastIndexOf('/'));
 
                 if (window.location.href.indexOf(USER_INDEX_JSON) != -1) {
