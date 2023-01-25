@@ -1066,9 +1066,10 @@
         function addSubtitleTracks(vttLinks, mediaLink) {
             videoplayer.empty();
             // strip extension
-            var commonPrefix = mediaLink.attr('title').replace(/\.[^/.]+$/, '');
+            var commonPrefix = mediaLink.data('name').replace(/\.[^/.]+$/, '');
             vttLinks.each(function () {
-                var trackLabel = this.dataset.name.replace(commonPrefix, '').replace('\.vtt', '').replace(/^[-._/=,]/, '');
+
+                var trackLabel = this.dataset.name.replace(commonPrefix, '').replace('\.(vtt|mp4|wav|acc|mp3)', '').replace(/^[-._/=,]/, '');
                 videoplayer.append(`<track label="${trackLabel}" srclang="zh" kind="subtitles" src="${this.href}"/>`)
             });
         }
@@ -1159,14 +1160,14 @@
 
                         if (REGEX_TYPE_IMAGE.test(href) && element.size < 1048576) {
 
-                            preview = `<a class="imglnk" data-type="file" title="️${element.name} [${fileSize}] &#x1F55D; ${lastModified}" href="${href}">
+                            preview = `<a class="imglnk" data-type="file" title="️${element.name} - [${fileSize}] &#x1F55D; ${lastModified}" href="${href}">
                                     <div class="preview">
                                         <img src="${href}">
                                     </div>
                                 </a>`;
                         }
 
-                        $(li).html(`${preview}\n<a class="fileinfo" data-type="${type}" data-name="${element.name}" title="${element.name} &#x1F55D; ${lastModified}" href="${href}">
+                        $(li).html(`${preview}\n<a class="fileinfo" data-type="${type}" data-name="${element.name}" title="${element.name} - &#x1F55D; ${lastModified}" href="${href}">
                                 <span class="fname">${icon}&nbsp;${element.name}</span>
                                 <span class="size">${fileSize}</span>
                             </a>`);
