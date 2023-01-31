@@ -393,6 +393,7 @@
         video::cue {
             color: #ffc800;
             border: 3px solid black;
+            text-align: center;
         }
 
         video::cue(b) {
@@ -434,7 +435,7 @@
         const REGEX_TYPE_VIDEO = /\.(mp4|m4v|avi|mov|mpg|mpeg|webm|ogv|ogm|opus|mkv)/i;
         const REGEX_TYPE_AUDIO_VIDEO = /(mp3|m4a|aac|flac|ape|wav|ogg|oga|ogv|mp4|m4v|avi|mov|mpg|mpeg|webm|mkv)$/i;
         const REGEX_TYPE_IMAGE = /\.(gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|heic)$/i;
-        const REGEX_TYPE_CONTENT = /\.(pdf|html?|php|asp|js|py|sh|xml|txt|xml|bat|docx?|xlsx?|s?css|json|java|c|log|\..+rc|cpp|h|hpp|srt|vtt|cfg|conf|ini|gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|cs|pl)$/i;
+        const REGEX_TYPE_CONTENT = /\.(pdf|html?|php|asp|js|py|sh|xml|txt|xml|bat|docx?|xlsx?|s?css|java|c|log|\..+rc|cpp|h|hpp|srt|vtt|cfg|conf|ini|gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|cs|pl)$/i;
         const REGEX_TYPE_CODE = /\.(kt|go|ics|rst?|rb|dart|php|js|tsx?|py|z?sh|xml|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|yaml|yml|groovy|swift|properties|gradle|srt|sql|m3u8?)$/i;
         const REGEX_TYPE_CONTENT_FULL_SCREEN = /\.(gif|jpg|jpeg|apng|png|tiff|bmp|eps|pcx|webp|ico|icns|psd|xpm|wmf)$/i;
         const REGEX_TYPE_MARKDOWN = /\.(md)$/i;
@@ -716,18 +717,21 @@
             /*
             */
             // AUTOSKIP INTRO
-            window.audioplayer.on('play', function (e) {
+            $('#audioplayer, #videoplayer').on('play', function (e) {
                 if (e.target.src && e.target.currentTime == 0) {
-                    for (var i = 0; i < SKIP_INTROS.length; i++) {
-                        var regEx = SKIP_INTROS[i][0];
-                        var skipSeconds = SKIP_INTROS[i][1];
+                    if (window._skipIntroGlobalSecs) {
+                        e.target.currentTime = window._skipIntroGlobalSecs;
+                    } else {
+                        for (var i = 0; i < SKIP_INTROS.length; i++) {
+                            var regEx = SKIP_INTROS[i][0];
+                            var skipSeconds = SKIP_INTROS[i][1];
 
-                        if (regEx.test(decodeURIComponent(e.target.src)))
-                            e.target.currentTime = skipSeconds;
+                            if (regEx.test(decodeURIComponent(e.target.src)))
+                                e.target.currentTime = skipSeconds;
+                        }
                     }
                 }
             });
-
 
             // handle key navigation
             document.onkeydown = function (e) {
@@ -1066,12 +1070,16 @@
         function addSubtitleTracks(vttLinks, mediaLink) {
             videoplayer.empty();
             // strip extension
+            // debugger;
             var commonPrefix = mediaLink.data('name').replace(/\.[^/.]+$/, '');
+            var meta = [];
             vttLinks.each(function () {
 
-                var trackLabel = this.dataset.name.replace(commonPrefix, '').replace('\.(vtt|mp4|wav|acc|mp3)', '').replace(/^[-._/=,]/, '');
-                videoplayer.append(`<track label="${trackLabel}" srclang="zh" kind="subtitles" src="${this.href}"/>`)
+                var trackLabel = this.dataset.name.replace(commonPrefix, '').replace('\.(vtt|mp4|m4v|ape|flac|wav|acc|mp3)', '').replace(/^[-._/=,]/, '');
+                // videoplayer.append(`<track label="${trackLabel}" srclang="en" kind="subtitles" src="${this.href}"/>`);
+                meta.push({ label: trackLabel, src: this.href })
             });
+            videoplayer.get(0).VTT_META = meta;
         }
 
         function getPath() {
@@ -1090,6 +1098,7 @@
             var curdir = path || getPath();
             var params = new URL(document.location.href).searchParams;
             var includeHidden = isTrue(params.get('hidden'));
+            window._skipIntroGlobalSecs = params.get('skip');
 
             // supress highliter with 'nohl=true'
             if (isTrue(params.get('nohl'))) {
@@ -1196,7 +1205,63 @@
                     docHead.append('<style type="text/css">body{height:100%; position:relative} body>img {display:block; text-align:center; position:absolute; max-width:100%; max-height:100%; margin:auto; top:0; bottom: 0; left:0; right: 0}</style>');
                 }
             });
+
+            var $videoplayer = $('#videoplayer');
+
+            $videoplayer.on('loadedmetadata', function () {
+                // debugger;
+                console.log('loadmetadata', this);
+
+                if (this.VTT_META) {
+                    for (var i = 0; i < this.VTT_META.length; i++) {
+                        var trk = this.VTT_META[i];
+                        track = document.createElement("track");
+                        track.kind = "captions";
+                        track.label = trk.label;
+                        track.srclang = "pi";
+                        track.src = trk.src;
+
+                        // if (trk.label != lastLabel) {
+                        //     this.mode = "disabled";
+                        // } else {
+                        //     this.mode = "showing";
+                        // }
+
+                        this.appendChild(track);
+                    }
+
+                    var lastLabel = localStorage.getItem('lastLabel');
+                    var numTracks = this.textTracks.length;
+
+                    for (var i = numTracks - 1; i >= 0; i--) {
+                        var track = this.textTracks[i];
+                        if (track.label === lastLabel) {
+                            track.mode = "showing";
+                        } else {
+                            track.mode = "disabled";
+                        }
+
+                    }
+
+                }
+            });
+
+            $videoplayer.get(0).textTracks.addEventListener('change', function (e) {
+                var textTrackList = this;
+                var numTracks = textTrackList.length;
+                for (var i = numTracks - 1; i >= 0; i--) {
+                    var track = textTrackList[i];
+                    // https://developer.mozilla.org/en-US/docs/Web/API/TextTrack
+                    console.log(track.mode, track.label, track.language, track.kind, track.id);
+
+                    if (track.mode === 'showing') {
+                        localStorage.setItem('lastLabel', track.label);
+                    }
+                }
+            });
         });
+
+
     </script>
 
 </head>
@@ -1249,8 +1314,8 @@
                             </select>
 
                             <video onended="playNext();" style="display:none" id="videoplayer" autoplay controls>
-                                <track label="WebVTT subtitles" id="subs" default srclang="zh" kind="subtitles"
-                                    src="" />
+                                <!-- <track label="WebVTT subtitles" id="subs" default srclang="zh" kind="subtitles"
+                                    src="" /> -->
                             </video>
                         </div>
                     </div>
