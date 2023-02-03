@@ -67,6 +67,9 @@ The URL can contain extra parameters:
 
 Example URL with custom parameters which shows dot files, uses pdf.js for PDF rendering and skips the first 15 seconds on media playback: 
 
+
+- `http://example.com/path/to/project/mediabro24caddy/index.html?hidden=true&skip=15&pdfjs=true#/path/to/content/`
+
 ## Implementation
 
 Caddy is a fast, lightweight and production ready web server that is capable of serving directory listings in JSON format.
@@ -86,10 +89,6 @@ To browse a folder via your custom `index.json` file open the corresponding targ
 
     http://example.com/path/to/project/mediabro24caddy/index.html#/path/to/data/folder/index.json
     
-
-- `http://example.com/path/to/project/mediabro24caddy/index.html?hidden=true&skip=15&pdfjs=true#/path/to/content/`
-
-
 #### Advanced example: exclude files by glob, include by glob, include custom last modified date and size:
 ```bash
 tree -I 'blood*|clotting*|Ohio*' -L 1 -P '*.mp3|*.flac|*.mp4|*.srt|*.vtt' --ignore-case -J -D --timefmt '%d-%b-%Y %H:%M' --dirsfirst -s | jq  '.[0].contents'
