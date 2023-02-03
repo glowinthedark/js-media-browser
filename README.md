@@ -25,7 +25,7 @@ http:// {
 
 > NOTE: The caddy `file_server_browser` module must have the `index ''` instruction. Otherwise caddy will attempt to load any existing `index.html` files (if present) instead of returning directory listings in JSON format as required by the client-side.
 
-#### Features:
+## Features:
 
 * displaying PDF, HTML, Markdown content with associated audio/video files
 * adjustable playback speed for media files
@@ -52,11 +52,28 @@ For more details refer to [mozilla browser media compatibility table](https://de
 | Space  | Pause/Play  |
 | f  | Toggle full screen  |
 
-# Implementation
+## URL parameters
+
+The URL can contain extra parameters:
+
+
+| Param  | Description |
+| ------------- | ------------- |
+| **`hidden=true`**  | show files starting with a dot, e.g. `.vimrc`  |
+| **`skip=12`**  | skip the first NN seconds  |
+| **`pdfjs=true`**  | force opening files with pdf.js instead of the native PDF renderer  |
+
+> `true`, `1`, `yes`, `on` all have the same effect
+
+Example URL with custom parameters which shows dot files, uses pdf.js for PDF rendering and skips the first 15 seconds on media playback: 
+
+## Implementation
+
+Caddy is a fast, lightweight and production ready web server that is capable of serving directory listings in JSON format.
 
 The approach is build on `caddy` being able to serve directory indexes as JSON when requested with the `Content-Type: application/json` header. This enables dynamic client-side rendering of a directory tree that can be used to navigate remote content.
 
-The client-side can also accept static user provided `index.json` file which can be generated, for example, with the `tree` command line utility which can be filtered with `jq` as follows:
+The client-side can also accept static user provided `index.json` files which can be generated, for example, with the `tree` command line utility which can be filtered with `jq` as follows:
 
 ```bash
 tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s | jq '.[0].contents' > index.json
@@ -68,6 +85,10 @@ Adjust to your own needs or remove the entire `-P ...` part to include all files
 To browse a folder via your custom `index.json` file open the corresponding target folder with:
 
     http://example.com/path/to/project/mediabro24caddy/index.html#/path/to/data/folder/index.json
+    
+
+- `http://example.com/path/to/project/mediabro24caddy/index.html?hidden=true&skip=15&pdfjs=true#/path/to/content/`
+
 
 #### Advanced example: exclude files by glob, include by glob, include custom last modified date and size:
 ```bash
