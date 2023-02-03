@@ -949,7 +949,8 @@
                     contentPanel.attr('src', null);
 
                     // chrome doesn't display PDFs natively *inside iframes*, use pdf.js instead
-                    if (!isMobile && (isChrome || IS_ALWAYS_USE_PDF_JS) && contentLink.match(/\.pdf/i)) {
+                    if (!isMobile && (IS_ALWAYS_USE_PDF_JS || window._forcePdfJs) && contentLink.match(/\.pdf/i)) {
+                    // if (!isMobile && (isChrome || IS_ALWAYS_USE_PDF_JS) && contentLink.match(/\.pdf/i)) {
                         contentPanel.attr('src', `js/pdfjs/web/viewer.html?file=${encodeURIComponent(contentLink)}`);
 
                         // SPECIAL treatment for Markdown
@@ -1099,6 +1100,7 @@
             var params = new URL(document.location.href).searchParams;
             var includeHidden = isTrue(params.get('hidden'));
             window._skipIntroGlobalSecs = params.get('skip');
+            window._forcePdfJs = isTrue(params.get('pdfjs'));
 
             // supress highliter with 'nohl=true'
             if (isTrue(params.get('nohl'))) {
