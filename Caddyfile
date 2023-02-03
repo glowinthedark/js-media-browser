@@ -7,4 +7,7 @@ http:// {
 		hide .git
 		index ''
 	}
+	   header {
+		X-Frame-Options SAMEORIGIN
+	}
 }
