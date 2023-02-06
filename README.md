@@ -12,7 +12,7 @@ This is a purely client-side web client which connects to a [caddy server](https
 
 An example `/etc/caddy/Caddyfile` for caddy server:
 
-```
+```bash
 http:// {
 
 	root * /media
