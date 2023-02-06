@@ -62,6 +62,7 @@ The URL can contain extra parameters:
 | **`hidden=true`**  | show files starting with a dot, e.g. `.vimrc`  |
 | **`skip=12`**  | skip the first NN seconds  |
 | **`pdfjs=true`**  | force opening files with pdf.js instead of the native PDF renderer  |
+| **`filter=\.(html\|pdf\|jpg)`** | regex to only include files that match the expression, e.g. html, pdf and jpg |
 
 > `true`, `1`, `yes`, `on` all have the same effect
 
