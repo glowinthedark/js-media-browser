@@ -774,14 +774,14 @@
 
             // href clicks
             $('a.fileinfo, a.imglnk, a.imglnk .preview img').click(function (e) {
-
+                e.preventDefault();
+                e.stopImmediatePropagation();
                 var $link;
 
                 if (e.target.tagName !== 'A') {
                     $link = $(e.target).closest('a');
                     if ($link.data('type') === 'file') {
-                        e.preventDefault();
-                        e.stopImmediatePropagation();
+
                     }
                 } else {
                     $link = $(e.target);
@@ -1098,16 +1098,16 @@
         function loadData(path) {
             var curdir = path || getPath();
             var params = new URL(document.location.href).searchParams;
-            var includeHidden = isTrue(params.get('hidden'));
-            window._skipIntroGlobalSecs = params.get('skip');
-            window._forcePdfJs = isTrue(params.get('pdfjs'));
+            var includeHidden = isTrue(params.get('hidden')) || isTrue(localStorage.getItem('hidden'));
+            window._skipIntroGlobalSecs = params.get('skip') || localStorage.getItem('skip');
+            window._forcePdfJs = isTrue(params.get('pdfjs')) || isTrue(localStorage.getItem('pdfjs'));
 
             // supress highliter with 'nohl=true'
-            if (isTrue(params.get('nohl'))) {
+            if (isTrue(params.get('nohl') || localStorage.getItem('nohl'))) {
                 IS_HIGHLIGHTER_ENABLED = false;
             }
 
-            var filter = params.get('filter')
+            var filter = params.get('filter') || localStorage.getItem('filter')
 
             $('#spinr').show();
 
