@@ -2,13 +2,13 @@
 
 Mediabro for Caddy is a minimalistic web client that provides an easy way to browse files on a computer, and view videos, audios, PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
 
-Mediabro does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser), etc and instead relies on having a regular caddy instance running with an light browser-based client. 
+Mediabro does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser).
 
 The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text. Clicking a media file will open it in the media preview panel and locate a matching PDF, HTML, etc file with the same base name. If matching content was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
 
-This is a purely client-side web client which connects to a [caddy server](https://caddyserver.com/) via HTTP. 
+Mediabro is a purely client-side web client that connects to a [caddy server](https://caddyserver.com/) via HTTP. 
 
-<sup>Mediabro can also work with other HTTP servers then a static `index.json` file must be present in each folder that needs to be browsed. For details on how to generate the static files see the [Implementation](#implementation) section below. </sup>
+<sup>Mediabro can also work with other HTTP servers. In this scenario a static `index.json` file must be present in each folder that needs to be browsed. For details on how to generate static index files see the [Implementation](#implementation) section below. </sup>
 
 An example `/etc/caddy/Caddyfile` for caddy server:
 
