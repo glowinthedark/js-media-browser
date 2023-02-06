@@ -1,10 +1,12 @@
 # MediaBrowser for Caddy
 
-An HTML+JS media browser for navigating file systems that contain text files, images, audio or video files. For video/audio files associated content such as PDF, HTML, or TXT can be displayed based on file name matching rules.
+Mediabro for Caddy is minimalistic web client that gives you an easy way to browse files on a computer and view videos, audios, PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
 
-The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text format. Clicking a media file will open it in the media preview panel and search for a matching PDF, HTML, etc file with the same base name. If a matching content file was found it will be loaded in the content preview panel below the media panel.
+Mediabro does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser), etc and instead relies on having a regular caddy instance running. 
 
-The app does not include a web server and works OOTB with the [caddy server](https://caddyserver.com/). The entire code runs client-side in the web browser. 
+The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text format. Clicking a media file will open it in the media preview panel and search for a matching PDF, HTML, etc file with the same base name. If a matching content file was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
+
+This is a purely client-side web client which connects to a [caddy server](https://caddyserver.com/) via HTTP. 
 
 <sup>The media browser can also be used with other HTTP servers but in that case an static `index.json` file must be provided in the folders to be browsed. For details see the [Implementation](#implementation) section below. </sup>
 
@@ -20,10 +22,14 @@ http:// {
 		hide .git
 		index ''
 	}
+	# required in chrome for allowing loading PDF files in an iframe
+	header {
+		X-Frame-Options SAMEORIGIN
+	}
 }
 ```
 
-> NOTE: The caddy `file_server_browser` module must have the `index ''` instruction. Otherwise caddy will attempt to load any existing `index.html` files (if present) instead of returning directory listings in JSON format as required by the client-side.
+> NOTE: The caddy `file_server_browser` module must have the `index ''` instruction. Otherwise caddy will attempt to load existing `index.html` files (if present) instead of returning directory listings in JSON format as required by the client-side.
 
 ## Features:
 
@@ -34,10 +40,12 @@ http:// {
 * syntax highlighting for source code files
 * automatic detection and loading of WebVTT subtitles for video files
 
-Example: if a folder contains a PDF file named `lesson-01.pdf` and a video file named `lesson-01.mp4`, then clicking the PDF file will display it in the content panel while the video will start playing in the media panel above.
+Example: if a folder contains a PDF file named `video-01.pdf` and a video file named `video-01.mp4`, then clicking the PDF file will display it in the content panel while the video will start playing in the media panel above. 
+
+Additionally, if `video-01.en.vtt`, `video-01.es.vtt` etc are present in the same folder then subtitles will be picked up and can be selected via the subtitles submenu in the video controls.
 
 ## Supported media formats
-Playback of media files is handled by the web browser therefore support is limited to the capabilities of the corresponding HTML5 `<audio/>` and `<video/>` elements which currently include: MP3, MP4 audio/video (H.264, AAC, MP3 codecs), MP4 container with Flac codec, OGG audio and video (Theora, Vorbis, Opus, Flac codecs), FLAC, WebM audio/video (VP8, VP9 codecs), WAV (PCM). Limited support for Matroska (MKV) is present for browsers that support it. 
+Playback of media files is handled by the web browser therefore support is limited by the capabilities of the corresponding HTML5 `<audio/>` and `<video/>` elements which currently include: MP3, MP4 audio/video (H.264, AAC, MP3 codecs), MP4 container with Flac codec, OGG audio and video (Theora, Vorbis, Opus, Flac codecs), FLAC, WebM audio/video (VP8, VP9 codecs), WAV (PCM). Limited support for Matroska (MKV) is present for browsers that support it. 
 
 For more details refer to [mozilla browser media compatibility table](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs#common_codecs).
 
