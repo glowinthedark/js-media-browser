@@ -8,7 +8,7 @@ The intended use is HTTP browsing of audio or video files with associated notes 
 
 This is a purely client-side web client which connects to a [caddy server](https://caddyserver.com/) via HTTP. 
 
-<sup>The media browser can also be used with other HTTP servers but in that case an static `index.json` file must be provided in the folders to be browsed. For details see the [Implementation](#implementation) section below. </sup>
+<sup>Mediabro can also work with other HTTP servers then a static `index.json` file must be present in each folder that needs to be browsed. For details on how to generate the static files see the [Implementation](#implementation) section below. </sup>
 
 An example `/etc/caddy/Caddyfile` for caddy server:
 
