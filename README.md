@@ -4,7 +4,7 @@ Mediabro for Caddy is a minimalistic web client that provides an easy way to bro
 
 Mediabro does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser), etc and instead relies on having a regular caddy instance running with an light browser-based client. 
 
-The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text format. Clicking a media file will open it in the media preview panel and search for a matching PDF, HTML, etc file with the same base name. If a matching content file was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
+The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text. Clicking a media file will open it in the media preview panel and locate a matching PDF, HTML, etc file with the same base name. If matching content was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
 
 This is a purely client-side web client which connects to a [caddy server](https://caddyserver.com/) via HTTP. 
 
