@@ -1,6 +1,6 @@
 # MediaBrowser for Caddy
 
-Mediabro for Caddy is minimalistic web client that gives you an easy way to browse files on a computer and view videos, audios, PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
+Mediabro for Caddy is a minimalistic web client that provides an easy way to browse files on a computer, and view videos, audios, PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
 
 Mediabro does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser), etc and instead relies on having a regular caddy instance running. 
 
