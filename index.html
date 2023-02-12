@@ -804,7 +804,7 @@
             } else {
                 // it's a folder; navigate
                 var goToDir = $link.attr("href").split('#')[1];
-                document.title = unescape(goToDir);
+                document.title = decodeURIComponent(goToDir);
                 loadData(goToDir);
                 return false;
             }
@@ -914,7 +914,7 @@
                 contentLink = path;
             }
 
-            document.title = unescape(path);
+            document.title = decodeURIComponent(path);
 
             if (mediaLink || !videoplayer.get(0).paused || !audioplayer.get(0).paused) {
                 if (isAudioDefined || !audioplayer.get(0).paused) {
@@ -1058,7 +1058,7 @@
             }
             if (parentDir) {
                 window.top.location.hash = parentDir;
-                document.title = unescape(parentDir);
+                document.title = decodeURIComponent(parentDir);
                 loadData(parentDir);
             }
 
@@ -1070,7 +1070,6 @@
     function addSubtitleTracks(vttLinks, mediaLink) {
         videoplayer.empty();
         // strip extension
-        // debugger;
         var commonPrefix = mediaLink.data('name').replace(/\.[^/.]+$/, '');
         var meta = [];
         vttLinks.each(function () {
@@ -1212,7 +1211,6 @@
         var $videoplayer = $('#videoplayer');
 
         $videoplayer.on('loadedmetadata', function () {
-            // debugger;
             console.log('loadmetadata', this);
 
             if (this.VTT_META) {
@@ -1294,7 +1292,14 @@
         });
 
         if (numEntries){
-            downloadToLocalFile('playlist.m3u', m3u_data);
+            var dirname = document.location.hash;
+            if (dirname.endsWith('/')) {
+                dirname = dirname.slice(0, -1);
+            }
+            var downloadName = `${dirname.substring(dirname.lastIndexOf('/')+1, dirname.length)}`;
+            downloadName = decodeURIComponent(downloadName);
+            var m3uFileName = `${(downloadName || 'playlist')}.m3u`;
+            downloadToLocalFile(m3uFileName, m3u_data);
         } else {
             alert("No playable files found!")
         }
@@ -1315,7 +1320,7 @@
                             <a title="parent folder" href="#" onclick="goUp();return false;">&#x21B0;</a>
                         </div>
                         <div class="inlined m3u">
-                            <a title="Download M3U playlist" target="_blank" onclick="downloadPlaylist();return false;" href="#">M3U</a>
+                            <a id="m3u-playlist" title="Download M3U playlist" target="_blank" onclick="downloadPlaylist();return false;" href="#">M3U</a>
                         </div>
                     </nav>
                     <div id="spinr" class="ispinner ispinner-large">
