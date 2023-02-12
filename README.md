@@ -8,7 +8,7 @@ The intended use is HTTP browsing of audio or video files with associated notes 
 
 Mediabro is a purely client-side web client that connects to a [caddy server](https://caddyserver.com/) via HTTP. 
 
-<sup>Mediabro can also work with other HTTP servers. In this scenario a static `index.json` file must be present in each folder that needs to be browsed. For details on how to generate static index files see the [Implementation](#implementation) section below. </sup>
+<sup>Mediabro can also work with other HTTP servers. In this scenario a static `index.json` file must be present in each folder that needs to be browsed. For details on how to generate static index files see the [Using with other web servers](#using-with-other-web-servers) section below. </sup>
 
 An example `/etc/caddy/Caddyfile` for caddy server:
 
@@ -80,13 +80,15 @@ Example URL with custom parameters which shows dot files, uses pdf.js for PDF re
 
 - `http://example.com/path/to/project/mediabro24caddy/index.html?hidden=true&skip=15&pdfjs=true#/path/to/content/`
 
-## Implementation
+## How does it work?
 
 Caddy is a fast, lightweight and production ready web server that is capable of serving directory listings in JSON format.
 
-The approach is build on `caddy` being able to serve directory indexes as JSON when requested with the `Content-Type: application/json` header. This enables dynamic client-side rendering of a directory tree that can be used to navigate remote content.
+The approach is build on `caddy`'s `file-server` plugin capability to serve directory indexes as JSON when requested with the `Content-Type: application/json` header. This enables dynamic client-side rendering of a directory tree that can be used to navigate remote content.
 
-The client-side can also accept static user provided `index.json` files which can be generated, for example, with the `tree` command line utility which can be filtered with `jq` as follows:
+## Using with other web servers
+
+The client-side can also accept static user `index.json` files which you can generate, for example, with the `tree` command line utility in combination with `jq` as follows:
 
 ```bash
 tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s | jq '.[0].contents' > index.json
@@ -94,6 +96,12 @@ tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s | jq '.[0].contents' > inde
 The command above will only include MP4, SRT and VTT files. 
 
 Adjust to your own needs or remove the entire `-P ...` part to include all files.
+
+You can also generate `index.json` files recursively in an entire subtree with the help of `find` (includes all files except the actual `index.json` itself):
+
+```bash
+find . -type d -exec sh -c 'tree "$0" -L 1 -I index.json --ignore-case -J -s | jq ".[0].contents"' > index.json {} \;
+```
 
 To browse a folder via your custom `index.json` file open the corresponding target folder with:
 
