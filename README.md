@@ -97,10 +97,10 @@ The command above will only include MP4, SRT and VTT files.
 
 Adjust to your own needs or remove the entire `-P ...` part to include all files.
 
-You can also generate `index.json` files recursively in an entire subtree with the help of `find` (includes all files except the actual `index.json` itself):
+You can also generate `index.json` files recursively in an entire subtree with the help of `find` (includes all files except the actual `index.json` itself, skips the `.git` folder):
 
 ```bash
-find . -type d -exec sh -c 'tree "$0" -L 1 -I index.json --ignore-case -J -s | jq ".[0].contents"' > index.json {} \;
+find . -type d ! -path "*/.git/*" -exec sh -c 'echo "$0" && tree "$0" -L 1 -I "index.json" --ignore-case -J -s -D | jq ".[0].contents"  > "$0/index.json"' {} \;
 ```
 
 To browse a folder via your custom `index.json` file open the corresponding target folder with:
