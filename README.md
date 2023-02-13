@@ -1,14 +1,14 @@
 # MediaBrowser for Caddy
 
-Mediabro for Caddy is a minimalistic web client that provides an easy way to browse files on a computer, and view videos, audios, PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
+MediaBrowser for Caddy is a minimalistic web client that provides an easy way to browse files on a computer, and view videos, audios, PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
 
-Mediabro does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser).
+MediaBrowser does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser).
 
-The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text. Clicking a media file will open it in the media preview panel and locate a matching PDF, HTML, etc file with the same base name. If matching content was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
+The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text. Clicking a media file will open it in the media preview panel and attempt to find a matching PDF, HTML, etc file with the same base name. If matching content was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
 
-Mediabro is a purely client-side web client that connects to a [caddy server](https://caddyserver.com/) via HTTP. 
+MediaBrowser is a purely client-side web client that works together with [caddy server](https://caddyserver.com/).  
 
-<sup>Mediabro can also work with other HTTP servers. In this scenario a static `index.json` file must be present in each folder that needs to be browsed. For details on how to generate static index files see the [Using with other web servers](#using-with-other-web-servers) section below. </sup>
+<sup>MediaBrowser can also work with other HTTP servers. In this scenario a static `index.json` file must be present in each folder that is exposed for browsing. For details on how to generate static index files see the [Using with other web servers](#using-with-other-web-servers) section below. </sup>
 
 An example `/etc/caddy/Caddyfile` for caddy server:
 
@@ -29,7 +29,7 @@ http:// {
 }
 ```
 
-> NOTE: The caddy `file_server_browser` module must have the `index ''` instruction. Otherwise caddy will attempt to load existing `index.html` files (if present) instead of returning directory listings in JSON format as required by the client-side.
+> NOTE: The caddy `file_server_browser` module must have the `index ''` instruction, or otherwise caddy will attempt to load existing `index.html` files (if present) instead of returning directory listings in JSON format as required by the client-side.
 
 ## Features:
 
@@ -40,14 +40,14 @@ http:// {
 * syntax highlighting for source code files
 * automatic detection and loading of WebVTT subtitles for video files
 
-Example: if a folder contains a PDF file named `video-01.pdf` and a video file named `video-01.mp4`, then clicking the PDF file will display it in the content panel while the video will start playing in the media panel above. 
+Example: if a folder contains an MP4 file named `video-01.mp4` and a PDF file named `video-01.pdf`, then clicking the MP4 file will start playing in the media panel above while the PDF will be loaded in the content panel below the video . 
 
-Additionally, if `video-01.en.vtt`, `video-01.es.vtt` etc are present in the same folder then subtitles will be picked up and can be selected via the subtitles submenu in the video controls.
+Additionally, if `video-01.en.vtt`, `video-01.es.vtt` etc are present in the same folder then subtitles will be picked up and can be selected enabled from the subtitles submenu in the video controls.
 
 ## Supported media formats
-Playback of media files is handled by the web browser therefore support is limited by the capabilities of the corresponding HTML5 `<audio/>` and `<video/>` elements which currently include: MP3, MP4 audio/video (H.264, AAC, MP3 codecs), MP4 container with Flac codec, OGG audio and video (Theora, Vorbis, Opus, Flac codecs), FLAC, WebM audio/video (VP8, VP9 codecs), WAV (PCM). Limited support for Matroska (MKV) is present for browsers that support it. 
+Playback of media files is limited by the capabilities of the corresponding HTML5 `<audio/>` and `<video/>` elements which currently include: MP3, MP4 audio/video (H.264, AAC, MP3 codecs), MP4 container with Flac codec, AAC, OGG audio and video (Theora, Vorbis, Opus, Flac codecs), FLAC, WebM audio/video (VP8, VP9 codecs), WAV (PCM). Limited support for Matroska (MKV) is present for browsers that support it. 
 
-For more details refer to [mozilla browser media compatibility table](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs#common_codecs).
+For more details see the [mozilla browser media compatibility table](https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Video_codecs#common_codecs).
 
 ## Keyboard navigation shortcuts
 
@@ -62,16 +62,15 @@ For more details refer to [mozilla browser media compatibility table](https://de
 
 ## URL parameters
 
-The URL can contain extra parameters:
-
+The URL can process the following extra parameters:
 
 | Param  | Description |
 | ------------- | ------------- |
-| **`hidden=true`**  | show files starting with a dot, e.g. `.vimrc`  |
+| **`hidden=true`**  | include files starting with a dot, e.g. `.vimrc`  |
 | **`skip=12`**  | skip the first NN seconds  |
-| **`pdfjs=true`**  | force opening files with pdf.js instead of the native PDF renderer  |
+| **`pdfjs=true`**  | force PDF rendering with pdf.js instead of native PDF renderer  |
 | **`filter=\.(html\|pdf\|jpg)`** | regex to only include files that match the expression, e.g. html, pdf and jpg |
-| **`nohl=1`**  | disable syntax highlighting for all text files (e.g. for very big files) |
+| **`nohl=1`**  | disable syntax highlighting for all text files (e.g. useful for large files) |
 
 > `true`, `1`, `yes`, `on` all have the same effect
 
@@ -82,40 +81,38 @@ Example URL with custom parameters which shows dot files, uses pdf.js for PDF re
 
 ## How does it work?
 
-Caddy is a fast, lightweight and production ready web server that is capable of serving directory listings in JSON format.
-
-The approach is build on `caddy`'s `file-server` plugin capability to serve directory indexes as JSON when requested with the `Content-Type: application/json` header. This enables dynamic client-side rendering of a directory tree that can be used to navigate remote content.
+[Caddy](https://caddyserver.com/) is a fast, lightweight and production ready web server. The approach is build on `caddy`'s `file-server` plugin capability to serve directory indexes as JSON when requested with the `Content-Type: application/json` header. This makes possible dynamic client-side rendering of a directory tree that can be used to navigate remote content via ajax HTTP requests.
 
 ## Using with other web servers
 
-The client-side can also accept static user `index.json` files which you can generate, for example, with the `tree` command line utility in combination with `jq` as follows:
+The client-side can accept static user `index.json` files which you can generate, for example, with the `tree` command line utility in combination with `jq` as follows:
 
 ```bash
 tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s | jq '.[0].contents' > index.json
 ```
-The command above will only include MP4, SRT and VTT files. 
+> The command above will only include MP4, SRT and VTT files. Adjust to your own needs or remove the entire `-P ...` part to include all files.
 
-Adjust to your own needs or remove the entire `-P ...` part to include all files.
-
-You can also generate `index.json` files recursively in an entire subtree with the help of `find` (includes all files except the actual `index.json` itself, skips the `.git` folder):
+You can generate `index.json` files recursively in an entire subtree with `find`. This invocation will create the `index.json` recursively excluding from the listing the actual `index.json` itself and the `.git` folder):
 
 ```bash
 find . -type d ! -path "*/.git/*" -exec sh -c 'echo "$0" && tree "$0" -L 1 -I "index.json" --ignore-case -J -s -D | jq ".[0].contents"  > "$0/index.json"' {} \;
 ```
 
-To browse a folder via your custom `index.json` file open the corresponding target folder with:
+To browse a folder via a custom `index.json` file open the corresponding target folder with:
 
     http://example.com/path/to/project/mediabro24caddy/index.html#/path/to/data/folder/index.json
     
-#### Advanced example: exclude files by glob, include by glob, include custom last modified date and size:
+#### Example 2: exclude files by glob, include by glob, include custom last modified date and size:
 ```bash
 tree -I 'blood*|clotting*|Ohio*' -L 1 -P '*.mp3|*.flac|*.mp4|*.srt|*.vtt' --ignore-case -J -D --timefmt '%d-%b-%Y %H:%M' --dirsfirst -s | jq  '.[0].contents'
 ```
 
+where:
+
 | flag                                      | description                        |
 | ----------------------------------------- | ---------------------------------- |
 | `-I "*ignored*"`                          | ignore file patterns               |
-| `-L`                                      | one level deep                     |
+| `-L 1`                                    | one level deep                     |
 | `-P "*.mp3\|*.flac\|*.mp4\|*.srt\|*.vtt"` | only include these file extensions |
 | `-J`                                      | JSON output                        |
 | `-s`                                      | include file size                  |
