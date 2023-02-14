@@ -427,6 +427,12 @@
     var IS_HIGHLIGHTER_ENABLED = true;
     const IS_ALWAYS_USE_PDF_JS = false;
     const USER_INDEX_JSON = 'index.json';
+    const _MB_CURR_VTT = 'mb_last_vtt';
+    const _MB_SHOW_HIDDEN = 'mb_show_hidden';
+    const _MB_SKIP_START = 'mb_skip_start';
+    const _MB_PDF_JS = 'mb_use_pdfjs';
+    const _MB_NOHL = 'mb_hohl';
+    const _MB_FILTER = 'mb_filter';
 
     const REGEX_TYPE_AUDIO = /\.(mp3|m4a|aac|flac|ape|wav|ogg|oga)$/i;
     const REGEX_TYPE_VIDEO = /\.(mp4|m4v|avi|mov|mpg|mpeg|webm|ogv|ogm|opus|mkv)/i;
@@ -1096,16 +1102,16 @@
     function loadData(path) {
         var curdir = path || getPath();
         var params = new URL(document.location.href).searchParams;
-        var includeHidden = isTrue(params.get('hidden')) || isTrue(localStorage.getItem('hidden'));
-        window._skipIntroGlobalSecs = params.get('skip') || localStorage.getItem('skip');
-        window._forcePdfJs = isTrue(params.get('pdfjs')) || isTrue(localStorage.getItem('pdfjs'));
+        var includeHidden = isTrue(params.get('hidden')) || isTrue(localStorage.getItem(_MB_SHOW_HIDDEN));
+        window._skipIntroGlobalSecs = params.get('skip') || localStorage.getItem(_MB_SKIP_START);
+        window._forcePdfJs = isTrue(params.get('pdfjs')) || isTrue(localStorage.getItem(_MB_PDF_JS));
 
         // supress highliter with 'nohl=true'
-        if (isTrue(params.get('nohl') || localStorage.getItem('nohl'))) {
+        if (isTrue(params.get('nohl') || localStorage.getItem(_MB_NOHL))) {
             IS_HIGHLIGHTER_ENABLED = false;
         }
 
-        var filter = params.get('filter') || localStorage.getItem('filter');
+        var filter = params.get('filter') || localStorage.getItem(_MB_FILTER);
 
         $('#spinr').show();
 
@@ -1225,7 +1231,7 @@
                     this.appendChild(track);
                 }
 
-                var lastLabel = localStorage.getItem('lastLabel');
+                var lastLabel = localStorage.getItem(_MB_CURR_VTT);
                 var numTracks = this.textTracks.length;
 
                 for (var i = numTracks - 1; i >= 0; i--) {
@@ -1242,14 +1248,21 @@
         $videoplayer.get(0).textTracks.addEventListener('change', function (e) {
             var textTrackList = this;
             var numTracks = textTrackList.length;
+            var isTrackVisible = false;
+
             for (var i = numTracks - 1; i >= 0; i--) {
                 var track = textTrackList[i];
                 // https://developer.mozilla.org/en-US/docs/Web/API/TextTrack
                 console.log(track.mode, track.label, track.language, track.kind, track.id);
 
                 if (track.mode === 'showing') {
-                    localStorage.setItem('lastLabel', track.label);
+                    localStorage.setItem(_MB_CURR_VTT, track.label);
+                    isTrackVisible = true;
                 }
+            }
+
+            if (!isTrackVisible) {
+                localStorage.removeItem(_MB_CURR_VTT);
             }
         });
     });
@@ -1266,7 +1279,8 @@
         window.file_saver_data = data;
         if (!window.saveAs) {
             var script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js';
+            script.src = 'js/FileSaver-1.3.8.min.js';
+            // script.src = 'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js';
             document.head.appendChild(script);
 
             script.onload = function () {
