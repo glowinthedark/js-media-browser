@@ -10,11 +10,11 @@
     <title>Media Browser</title>
     <link rel="stylesheet" href="css/split-pane.css" />
     <link rel="stylesheet" href="css/pretty-split-pane.css" />
-    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-3.6.3.min.js"></script>
     <script src="js/angular.min.js"></script>
     <script src="js/split-pane.js"></script>
     <script src="js/angular-split-pane.js"></script>
-    <script src="js/marked.min.js"></script>
+    <script src="js/marked-4.2.12.min.js"></script>
     <link rel="apple-touch-icon" sizes="57x57" href="ico/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="ico/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="ico/apple-icon-72x72.png">
@@ -439,7 +439,7 @@
     const REGEX_TYPE_AUDIO_VIDEO = /(mp3|m4a|aac|flac|ape|wav|ogg|oga|ogv|mp4|m4v|avi|mov|mpg|mpeg|webm|mkv)$/i;
     const REGEX_TYPE_IMAGE = /\.(gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|heic)$/i;
     const REGEX_TYPE_CONTENT = /\.(pdf|html?|php|asp|js|py|sh|xml|txt|bat|docx?|xlsx?|s?css|java|c|log|\..+rc|cpp|h|hpp|srt|vtt|cfg|conf|ini|gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|cs|pl)$/i;
-    const REGEX_TYPE_CODE = /\.(kt|go|ics|rst?|rb|dart|php|js|tsx?|py|z?sh|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|pl|yaml|yml|groovy|swift|properties|gradle|srt|sql|m3u8?)$/i;
+    const REGEX_TYPE_CODE = /\.(kt|go|ics|rst?|rb|dart|php|js|tsx?|py|z?sh|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|pl|yaml|yml|groovy|swift|properties|gradle|srt|sql|lua|m3u8?)$/i;
     const REGEX_TYPE_MARKDOWN = /\.(md)$/i;
 
     const ICON_AUDIO = "&#x1F3A7;" // 🎧
@@ -520,6 +520,7 @@
         'js': ICON_MISC,
         'json': ICON_MISC,
         'kt': ICON_MISC,
+        'lua': ICON_MISC,
         'm': ICON_MISC,
         'm3u': ICON_MISC,
         'm3u8': ICON_MISC,
@@ -974,14 +975,14 @@
                                     rel: "stylesheet",
                                     id: 'flag_markdown',
                                     // https://raw.githubusercontent.com/markdowncss/splendor/master/css/splendor.min.css
-                                    href: `${path === '/' ? '' : path}css/modest.css`,
+                                    href: `${path === '/' ? '' : path}css/Torpedo.css`, // https://github.com/ttscoff/MarkedCustomStyles/blob/master/Torpedo.css
                                     type: "text/css"
                                 }));
                             }
                             return data;
                         })
                         .then(data => {
-                            var markdown_content = marked(data);
+                            var markdown_content = marked.parse(data);
                             contentPanel.contents().find('body').html(markdown_content);
                             $('#spinr_content').hide();
                             contentPanel.contents().scrollTop(0);
