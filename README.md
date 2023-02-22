@@ -85,17 +85,17 @@ Example URL with custom parameters which shows dot files, uses pdf.js for PDF re
 
 ## Using with other web servers
 
-The client-side can accept static user `index.json` files which you can generate, for example, with the `tree` command line utility in combination with `jq` as follows:
+The client-side can accept static user `index.json` files which you can generate, for example, with the `tree` command line utility as follows:
 
 ```bash
-tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s | jq '.[0].contents' -o index.json
+tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s -o index.json
 ```
 > The command above will only include MP4, SRT and VTT files. Adjust to your own needs or remove the entire `-P ...` part to include all files.
 
 You can generate `index.json` files recursively in an entire subtree with `find`. This invocation will create the `index.json` recursively excluding from the listing the actual `index.json` itself and the `.git` folder):
 
 ```bash
-find . -type d ! -path "*/.git/*" -exec sh -c 'echo "$0" && tree "$0" -L 1 -I "index.json" --ignore-case -J -s -D | jq ".[0].contents" -o "$0/index.json"' {} \;
+find . -type d ! -path "*/.git/*" -exec sh -c 'echo "$0" && tree "$0" -L 1 -I "index.json" --ignore-case -J -s -D -o "$0/index.json"' {} \;
 ```
 
 To browse a folder via a custom `index.json` file open the corresponding target folder with:
@@ -104,7 +104,7 @@ To browse a folder via a custom `index.json` file open the corresponding target 
     
 #### Example 2: exclude files by glob, include by glob, include custom last modified date and size:
 ```bash
-tree -I 'blood*|clotting*|Ohio*' -L 1 -P '*.mp3|*.flac|*.mp4|*.srt|*.vtt' --ignore-case -J -D --timefmt '%d-%b-%Y %H:%M' --dirsfirst -s | jq  '.[0].contents'
+tree -I '*.bak|*.pyc|index.json' -L 1 -P '*.mp3|*.flac|*.mp4|*.srt|*.vtt' --ignore-case -J -D --timefmt '%d-%b-%Y %H:%M' --dirsfirst -s -o index.json
 ```
 
 where:
@@ -121,14 +121,17 @@ where:
 | `--dirsfirst`                             | directories first                  |
 
 
-##### Install `tree` and `jq` on MacOS:
+##### Install `tree` on MacOS:
 
 ```bash
-brew install tree jq
+brew install tree
 ```
 
-
-##### Install `tree` and `jq` on Linux:
+##### Install `tree` on Linux:
 ```bash
-sudo apt install tree jq
+sudo apt install tree
 ```
+
+##### Install `tree` on Windows
+
+- https://gnuwin32.sourceforge.net/packages/tree.htm
