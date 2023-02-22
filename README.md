@@ -111,7 +111,7 @@ where:
 
 | flag                                      | description                        |
 | ----------------------------------------- | ---------------------------------- |
-| `-I "*ignored*"`                          | ignore file patterns               |
+| `-I '*.bak\|*.pyc\|index.json'`           | ignore file patterns               |
 | `-L 1`                                    | one level deep                     |
 | `-P "*.mp3\|*.flac\|*.mp4\|*.srt\|*.vtt"` | only include these file extensions |
 | `-J`                                      | JSON output                        |
