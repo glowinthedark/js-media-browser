@@ -641,7 +641,6 @@
             parentDir = '';
         }
 
-
         // handle special cases
         for (var i = 0, len = URL_TRANSFORMATIONS.length; i < len; i++) {
             var item = URL_TRANSFORMATIONS[i];
@@ -651,11 +650,6 @@
             if (matcher) {
                 return parentDir + baseName.replace(item[0], item[1]);
             }
-        }
-
-        // special case for mandarin-corner
-        if (/.*mandarin-corner.*/.test(document.location.href)) {
-            path = path.replace(/-/g, '%20');
         }
 
         // remove extension
@@ -827,7 +821,6 @@
             var inferredContentLink;
 
             if (path.match(REGEX_TYPE_CONTENT)) {
-                e.preventDefault();
                 contentLink = path;
 
                 var matched_file = findMatchingFileByExtension(path, REGEX_TYPE_AUDIO_VIDEO);
@@ -845,12 +838,10 @@
                 isMediaLinkClick = true;
                 mediaLink = path;
                 isAudioDefined = true;
-                e.preventDefault();
             } else if (path.match(REGEX_TYPE_VIDEO)) {
                 mediaLink = path;
                 isMediaLinkClick = true;
                 isVideoDefined = true;
-                e.preventDefault();
             }
 
             if (!mediaLink && inferredMediaLink && isValidUrl(inferredMediaLink)) {
@@ -934,12 +925,10 @@
             } else if (contentLink) {
                 _scope.setFirstComponent(0);
             } else if (!contentLink) {
-                // why is this here?
                 _scope.setLastComponent(0);
             }
 
             audioplayer.on('error', function () {
-                // audioplayer.hide();
                 console.log('AUDIO ERROR', this);
 
                 if (!isVideoDefined) {
@@ -951,15 +940,12 @@
             _scope.$apply();
 
             if (contentLink && contentPanel.attr('src') !== contentLink) {
-
                 contentPanel.attr('src', null);
 
-                // chrome doesn't display PDFs natively *inside iframes*, use pdf.js instead
                 if (!isMobile && (IS_ALWAYS_USE_PDF_JS || window._forcePdfJs) && contentLink.match(/\.pdf/i)) {
-                // if (!isMobile && (isChrome || IS_ALWAYS_USE_PDF_JS) && contentLink.match(/\.pdf/i)) {
                     contentPanel.attr('src', `js/pdfjs/web/viewer.html?file=${encodeURIComponent(contentLink)}`);
 
-                    // SPECIAL treatment for Markdown
+                // SPECIAL treatment for Markdown
                 } else if (contentLink.match(REGEX_TYPE_MARKDOWN) && window.marked) {
                     $('#spinr_content').show();
 
@@ -977,9 +963,7 @@
                                 iframe_head.append($("<link/>", {
                                     rel: "stylesheet",
                                     id: 'flag_markdown',
-                                    // https://raw.githubusercontent.com/markdowncss/splendor/master/css/splendor.min.css
                                     href: `${path}css/Torpedo.css`, // https://github.com/ttscoff/MarkedCustomStyles/blob/master/Torpedo.css
-                                    // href: `${path === '/' ? '' : path}css/modest.css`,
                                     type: "text/css"
                                 })).append($("<link/>", {
                                     rel: "stylesheet",
@@ -994,8 +978,6 @@
                             if (IS_HIGHLIGHTER_ENABLED) {
                                 marked.setOptions({
                                     highlight: function (code, lang) {
-                                        debugger;
-                                        // return hljs.highlight(lang, code).value;
                                         if (window.hljs && lang) {
                                             return hljs.highlight(code, {language: lang}).value;
                                         }
@@ -1031,9 +1013,6 @@
                                     href: `${path}css/atelier-estuary-light.css`,
                                     type: "text/css"
                                 }))
-                                //     .append($('<script/>', {
-                                //     src: `${path}js/highlight.min-11.7.0.js`
-                                // }))
                                 ;
                             }
                             return data;
@@ -1104,7 +1083,6 @@
         vttLinks.each(function () {
 
             var trackLabel = this.dataset.name.replace(commonPrefix, '').replace('\.(vtt|mp4|m4v|ape|flac|wav|acc|mp3)', '').replace(/^[-._/=,]/, '');
-            // videoplayer.append(`<track label="${trackLabel}" srclang="en" kind="subtitles" src="${this.href}"/>`);
             meta.push({ label: trackLabel, src: this.href });
         });
         videoplayer.get(0).VTT_META = meta;
@@ -1316,8 +1294,7 @@
         window.file_saver_data = data;
         if (!window.saveAs) {
             var script = document.createElement('script');
-            script.src = 'js/FileSaver-1.3.8.min.js';
-            // script.src = 'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js';
+            script.src = 'js/FileSaver-1.3.8.min.js'; // https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
             document.head.appendChild(script);
 
             script.onload = function () {
