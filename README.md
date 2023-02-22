@@ -88,14 +88,14 @@ Example URL with custom parameters which shows dot files, uses pdf.js for PDF re
 The client-side can accept static user `index.json` files which you can generate, for example, with the `tree` command line utility in combination with `jq` as follows:
 
 ```bash
-tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s | jq '.[0].contents' > index.json
+tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s | jq '.[0].contents' -o index.json
 ```
 > The command above will only include MP4, SRT and VTT files. Adjust to your own needs or remove the entire `-P ...` part to include all files.
 
 You can generate `index.json` files recursively in an entire subtree with `find`. This invocation will create the `index.json` recursively excluding from the listing the actual `index.json` itself and the `.git` folder):
 
 ```bash
-find . -type d ! -path "*/.git/*" -exec sh -c 'echo "$0" && tree "$0" -L 1 -I "index.json" --ignore-case -J -s -D | jq ".[0].contents"  > "$0/index.json"' {} \;
+find . -type d ! -path "*/.git/*" -exec sh -c 'echo "$0" && tree "$0" -L 1 -I "index.json" --ignore-case -J -s -D | jq ".[0].contents" -o "$0/index.json"' {} \;
 ```
 
 To browse a folder via a custom `index.json` file open the corresponding target folder with:
