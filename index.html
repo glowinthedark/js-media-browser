@@ -15,6 +15,7 @@
     <script src="js/split-pane.js"></script>
     <script src="js/angular-split-pane.js"></script>
     <script src="js/marked-4.2.12.min.js"></script>
+    <script async src="js/highlight.min-11.7.0.js"></script>
     <link rel="apple-touch-icon" sizes="57x57" href="ico/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="ico/apple-icon-60x60.png">
     <link rel="apple-touch-icon" sizes="72x72" href="ico/apple-icon-72x72.png">
@@ -439,7 +440,7 @@
     const REGEX_TYPE_AUDIO_VIDEO = /(mp3|m4a|aac|flac|ape|wav|ogg|oga|ogv|mp4|m4v|avi|mov|mpg|mpeg|webm|mkv)$/i;
     const REGEX_TYPE_IMAGE = /\.(gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|heic)$/i;
     const REGEX_TYPE_CONTENT = /\.(pdf|html?|php|asp|js|py|sh|xml|txt|bat|docx?|xlsx?|s?css|java|c|log|\..+rc|cpp|h|hpp|srt|vtt|cfg|conf|ini|gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|cs|pl)$/i;
-    const REGEX_TYPE_CODE = /\.(kt|go|ics|rst?|rb|dart|php|js|tsx?|py|z?sh|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|pl|yaml|yml|groovy|swift|properties|gradle|srt|sql|lua|m3u8?)$/i;
+    const REGEX_TYPE_CODE = /\.(kt|go|ics|rst?|rb|dart|php|js|tsx?|py|ipynb|z?sh|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|pl|yaml|yml|groovy|swift|properties|gradle|srt|sql|lua|m3u8?)$/i;
     const REGEX_TYPE_MARKDOWN = /\.(md)$/i;
 
     const ICON_AUDIO = "&#x1F3A7;" // 🎧
@@ -516,6 +517,7 @@
         'groovy': ICON_MISC,
         'h': ICON_MISC,
         'hpp': ICON_MISC,
+        'ipynb': ICON_MISC,
         'java': ICON_MISC,
         'js': ICON_MISC,
         'json': ICON_MISC,
@@ -968,6 +970,7 @@
 
                             var path = window.parent ? parent.window.location.pathname : window.location.pathname;
                             path = path.replace(path.split('/').pop(), '');
+                            path = path === '/' ? '' : path;
 
                             if (!iframe_head.length || !iframe_head.find('#flag_markdown').length) {
                                 iframe_head.empty();
@@ -975,13 +978,30 @@
                                     rel: "stylesheet",
                                     id: 'flag_markdown',
                                     // https://raw.githubusercontent.com/markdowncss/splendor/master/css/splendor.min.css
-                                    href: `${path === '/' ? '' : path}css/Torpedo.css`, // https://github.com/ttscoff/MarkedCustomStyles/blob/master/Torpedo.css
+                                    href: `${path}css/Torpedo.css`, // https://github.com/ttscoff/MarkedCustomStyles/blob/master/Torpedo.css
+                                    // href: `${path === '/' ? '' : path}css/modest.css`,
+                                    type: "text/css"
+                                })).append($("<link/>", {
+                                    rel: "stylesheet",
+                                    id: 'flag_highlight',
+                                    href: `${path}css/atelier-estuary-light.css`,
                                     type: "text/css"
                                 }));
                             }
                             return data;
                         })
                         .then(data => {
+                            if (IS_HIGHLIGHTER_ENABLED) {
+                                marked.setOptions({
+                                    highlight: function (code, lang) {
+                                        debugger;
+                                        // return hljs.highlight(lang, code).value;
+                                        if (window.hljs && lang) {
+                                            return hljs.highlight(code, {language: lang}).value;
+                                        }
+                                    }
+                                });
+                            }
                             var markdown_content = marked.parse(data);
                             contentPanel.contents().find('body').html(markdown_content);
                             $('#spinr_content').hide();
@@ -1003,16 +1023,18 @@
                                 head.empty();
                                 var path = window.parent ? parent.window.location.pathname : window.location.pathname;
                                 path = path.replace(path.split('/').pop(), '');
-                                path === '/' ? '' : path;
+                                path = path === '/' ? '' : path;
 
                                 head.append($("<link/>", {
                                     rel: "stylesheet",
                                     id: 'flag_highlight',
                                     href: `${path}css/atelier-estuary-light.css`,
                                     type: "text/css"
-                                })).append($('<script/>', {
-                                    src: `${path}js/highlight.min-11.7.0.js`
-                                }));
+                                }))
+                                //     .append($('<script/>', {
+                                //     src: `${path}js/highlight.min-11.7.0.js`
+                                // }))
+                                ;
                             }
                             return data;
                         })
