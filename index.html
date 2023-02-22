@@ -1146,8 +1146,16 @@
             curdirBase = `${curdirBase}/`;
         }
 
+        var isCustomIndex = window.location.href.indexOf(USER_INDEX_JSON) !== -1;
+
         $.getJSON(curdir)
             .done(function (data) {
+
+                // handle output of "tree -L 1 -J"
+                if (isCustomIndex && data.length === 2 && data[0].contents) {
+                    data = data[0].contents;
+                }
+
                 // Natural sort
                 if (window.Intl && window.Intl.Collator) {
                     var naturalCollator = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
@@ -1160,6 +1168,12 @@
                 $(filelist).empty(); // REMOVE previous filelist
 
                 data.forEach(element => {
+
+                    if (!element.name) {
+                        alert(`Unexpected server response ${JSON.stringify(element)}`);
+                        throw new Error('malformed index.json!');
+                    }
+
                     if (!includeHidden && element.name.charAt(0) === '.') {
                         return;
                     }
@@ -1174,8 +1188,8 @@
                     if (isDir) {
                         type = 'dir';
                         icon = ICON_DIR;
-                        if (window.location.href.indexOf(USER_INDEX_JSON) !== -1) {
-                            // using static index.json with other server than caddy
+                        if (isCustomIndex) {
+                            // using static index.json with other servers than caddy
                             href = `${window.location.pathname}#${curdirBase}${path}/${USER_INDEX_JSON}`;
                         } else {
                             // using caddy
