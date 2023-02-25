@@ -85,7 +85,7 @@ Example URL with custom parameters which shows dot files, uses pdf.js for PDF re
 
 ## Using with other web servers
 
-The client-side can accept static user `index.json` files which you can generate, for example, with the `tree` command line utility as follows:
+Usage with another web server requires that each folder to browse contains an `index.json` file with directory contents. The files can be generated, for example, with the `tree` command line utility as follows:
 
 ```bash
 tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s -o index.json
