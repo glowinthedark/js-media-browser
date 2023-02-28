@@ -945,7 +945,7 @@
                 if (!isMobile && (IS_ALWAYS_USE_PDF_JS || window._forcePdfJs) && contentLink.match(/\.pdf/i)) {
                     contentPanel.attr('src', `js/pdfjs/web/viewer.html?file=${encodeURIComponent(contentLink)}`);
 
-                // SPECIAL treatment for Markdown
+                    // SPECIAL treatment for Markdown
                 } else if (contentLink.match(REGEX_TYPE_MARKDOWN) && window.marked) {
                     $('#spinr_content').show();
 
@@ -984,10 +984,17 @@
                                     }
                                 });
                             }
-                            var markdown_content = marked.parse(data);
-                            contentPanel.contents().find('body').html(markdown_content);
-                            $('#spinr_content').hide();
-                            contentPanel.contents().scrollTop(0);
+                            var content;
+                            try {
+                                content = marked.parse(data);
+                            } catch(err) {
+                                console.error(err);
+                                content = data;
+                            } finally {
+                                contentPanel.contents().find('body').html(content);
+                                $('#spinr_content').hide();
+                                contentPanel.contents().scrollTop(0);
+                            }
                         });
                     // SPECIAL treatment for XML, JS, CSS, JAVA, etc
                 } else if (IS_HIGHLIGHTER_ENABLED && contentLink.match(REGEX_TYPE_CODE)) {
@@ -1013,7 +1020,9 @@
                                     href: `${path}css/atelier-estuary-light.css`,
                                     type: "text/css"
                                 }))
-                                ;
+                                .append($('<script/>', {
+                                    src: `${path}js/highlight.min-11.7.0.js`
+                                }));
                             }
                             return data;
                         })
@@ -1028,7 +1037,8 @@
                                 } else {
                                     body.html(`<pre><code>${page_content}</code></pre>`);
                                 }
-                                body.append("<script>(window.hljs ? window.hljs.highlightAll() : setTimeout(window.hljs.highlightAll(), 50));</" + "script>");
+
+                                body.append("<script>(window.hljs ? window.hljs.highlightAll() : console.error('nohljs!'));</" + "script>");
                                 $('#spinr_content').hide();
                                 contentPanel.contents().scrollTop(0);
                             });
@@ -1294,7 +1304,8 @@
         window.file_saver_data = data;
         if (!window.saveAs) {
             var script = document.createElement('script');
-            script.src = 'js/FileSaver-1.3.8.min.js'; // https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js
+            script.src = 'js/FileSaver-1.3.8.min.js';
+            // script.src = 'https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js';
             document.head.appendChild(script);
 
             script.onload = function () {
