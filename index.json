@@ -1,17 +1,5 @@
 [
   {
-    "type": "file",
-    "name": "Caddyfile",
-    "size": 123,
-    "time": "Feb 28 22:26"
-  },
-  {
-    "type": "file",
-    "name": "README.md",
-    "size": 7391,
-    "time": "Mar  3 00:16"
-  },
-  {
     "type": "directory",
     "name": "css",
     "size": 384,
@@ -30,15 +18,27 @@
     "time": "Mar  3 00:05"
   },
   {
-    "type": "file",
-    "name": "index.html",
-    "size": 49603,
-    "time": "Feb 28 23:01"
-  },
-  {
     "type": "directory",
     "name": "js",
     "size": 512,
     "time": "Mar  3 00:06"
+  },
+  {
+    "type": "file",
+    "name": "Caddyfile",
+    "size": 123,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "README.md",
+    "size": 7391,
+    "time": "Mar  3 00:16"
+  },
+  {
+    "type": "file",
+    "name": "index.html",
+    "size": 49603,
+    "time": "Feb 28 23:01"
   }
 ]

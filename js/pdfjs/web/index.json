@@ -2,8 +2,26 @@
   {
     "type": "directory",
     "name": "cmaps",
-    "size": 5472,
-    "time": "Mar  3 00:07"
+    "size": 5504,
+    "time": "Mar  3 00:19"
+  },
+  {
+    "type": "directory",
+    "name": "images",
+    "size": 1824,
+    "time": "Mar  3 00:19"
+  },
+  {
+    "type": "directory",
+    "name": "locale",
+    "size": 3648,
+    "time": "Mar  3 00:20"
+  },
+  {
+    "type": "directory",
+    "name": "standard_fonts",
+    "size": 736,
+    "time": "Mar  3 00:19"
   },
   {
     "type": "file",
@@ -12,28 +30,10 @@
     "time": "Feb 28 21:02"
   },
   {
-    "type": "directory",
-    "name": "images",
-    "size": 1792,
-    "time": "Mar  3 00:07"
-  },
-  {
-    "type": "directory",
-    "name": "locale",
-    "size": 3648,
-    "time": "Mar  3 00:07"
-  },
-  {
     "type": "file",
     "name": "pdf.viewer.js",
     "size": 524217,
     "time": "Feb 28 21:24"
-  },
-  {
-    "type": "directory",
-    "name": "standard_fonts",
-    "size": 704,
-    "time": "Mar  3 00:07"
   },
   {
     "type": "file",
