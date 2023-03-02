@@ -1,0 +1,44 @@
+[
+  {
+    "type": "file",
+    "name": "Caddyfile",
+    "size": 123,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "README.md",
+    "size": 7230,
+    "time": "Mar  3 00:05"
+  },
+  {
+    "type": "directory",
+    "name": "css",
+    "size": 352,
+    "time": "Feb 28 23:01"
+  },
+  {
+    "type": "directory",
+    "name": "ico",
+    "size": 928,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "directory",
+    "name": "img",
+    "size": 128,
+    "time": "Mar  3 00:05"
+  },
+  {
+    "type": "file",
+    "name": "index.html",
+    "size": 49603,
+    "time": "Feb 28 23:01"
+  },
+  {
+    "type": "directory",
+    "name": "js",
+    "size": 480,
+    "time": "Feb 28 22:27"
+  }
+]

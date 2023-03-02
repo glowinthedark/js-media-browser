@@ -1,0 +1,80 @@
+[
+  {
+    "type": "file",
+    "name": "FileSaver-1.3.8.min.js",
+    "size": 2446,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "angular-split-pane.js",
+    "size": 5990,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "angular-split-pane.min.js",
+    "size": 3522,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "angular.min.js",
+    "size": 106506,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "highlight.min-11.7.0.js",
+    "size": 120762,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "highlight.min.js",
+    "size": 135514,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "jquery-3.6.3.min.js",
+    "size": 89947,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "jquery.min.js",
+    "size": 89501,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "marked-4.2.12.min.js",
+    "size": 48887,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "marked.min.js",
+    "size": 44191,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "directory",
+    "name": "pdfjs",
+    "size": 160,
+    "time": "Feb 28 21:26"
+  },
+  {
+    "type": "file",
+    "name": "split-pane.js",
+    "size": 15891,
+    "time": "Feb 28 22:26"
+  },
+  {
+    "type": "file",
+    "name": "split-pane.min.js",
+    "size": 7089,
+    "time": "Feb 28 22:26"
+  }
+]
