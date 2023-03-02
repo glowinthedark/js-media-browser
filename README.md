@@ -10,6 +10,10 @@ MediaBrowser is a purely client-side web client that works together with [caddy 
 
 <sup>MediaBrowser can also work with other HTTP servers. In this scenario a static `index.json` file must be present in each folder that is exposed for browsing. For details on how to generate static index files see the [Using with other web servers](#using-with-other-web-servers) section below. </sup>
 
+![](img/mediabrowser-1.png)
+
+## Sample Caddyfile for caddy web server 
+
 An example `/etc/caddy/Caddyfile` for caddy server:
 
 ```bash
