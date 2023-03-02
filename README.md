@@ -1,4 +1,4 @@
-##### _Click below to browse the code of this project using MediaBrowser_
+##### _Click below to browse this repository using MediaBrowser_
 ## [Demo](https://glowinthedark.github.io/mediabro4caddy/#/mediabro4caddy/index.json)
 
 # MediaBrowser for Caddy
