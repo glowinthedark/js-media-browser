@@ -1,0 +1,1016 @@
+[
+  {
+    "type": "file",
+    "name": "78-EUC-H.bcmap",
+    "size": 2404,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "78-EUC-V.bcmap",
+    "size": 173,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "78-H.bcmap",
+    "size": 2379,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "78-RKSJ-H.bcmap",
+    "size": 2398,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "78-RKSJ-V.bcmap",
+    "size": 173,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "78-V.bcmap",
+    "size": 169,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "78ms-RKSJ-H.bcmap",
+    "size": 2651,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "78ms-RKSJ-V.bcmap",
+    "size": 290,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "83pv-RKSJ-H.bcmap",
+    "size": 905,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "90ms-RKSJ-H.bcmap",
+    "size": 721,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "90ms-RKSJ-V.bcmap",
+    "size": 290,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "90msp-RKSJ-H.bcmap",
+    "size": 715,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "90msp-RKSJ-V.bcmap",
+    "size": 291,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "90pv-RKSJ-H.bcmap",
+    "size": 982,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "90pv-RKSJ-V.bcmap",
+    "size": 260,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Add-H.bcmap",
+    "size": 2419,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Add-RKSJ-H.bcmap",
+    "size": 2413,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Add-RKSJ-V.bcmap",
+    "size": 287,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Add-V.bcmap",
+    "size": 282,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-CNS1-0.bcmap",
+    "size": 317,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-CNS1-1.bcmap",
+    "size": 371,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-CNS1-2.bcmap",
+    "size": 376,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-CNS1-3.bcmap",
+    "size": 401,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-CNS1-4.bcmap",
+    "size": 405,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-CNS1-5.bcmap",
+    "size": 406,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-CNS1-6.bcmap",
+    "size": 406,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-CNS1-UCS2.bcmap",
+    "size": 41193,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-GB1-0.bcmap",
+    "size": 217,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-GB1-1.bcmap",
+    "size": 250,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-GB1-2.bcmap",
+    "size": 465,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-GB1-3.bcmap",
+    "size": 470,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-GB1-4.bcmap",
+    "size": 601,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-GB1-5.bcmap",
+    "size": 625,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-GB1-UCS2.bcmap",
+    "size": 33974,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Japan1-0.bcmap",
+    "size": 225,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Japan1-1.bcmap",
+    "size": 226,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Japan1-2.bcmap",
+    "size": 233,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Japan1-3.bcmap",
+    "size": 242,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Japan1-4.bcmap",
+    "size": 337,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Japan1-5.bcmap",
+    "size": 430,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Japan1-6.bcmap",
+    "size": 485,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Japan1-UCS2.bcmap",
+    "size": 40951,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Korea1-0.bcmap",
+    "size": 241,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Korea1-1.bcmap",
+    "size": 386,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Korea1-2.bcmap",
+    "size": 391,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Adobe-Korea1-UCS2.bcmap",
+    "size": 23293,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "B5-H.bcmap",
+    "size": 1086,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "B5-V.bcmap",
+    "size": 142,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "B5pc-H.bcmap",
+    "size": 1099,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "B5pc-V.bcmap",
+    "size": 144,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "CNS-EUC-H.bcmap",
+    "size": 1780,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "CNS-EUC-V.bcmap",
+    "size": 1920,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "CNS1-H.bcmap",
+    "size": 706,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "CNS1-V.bcmap",
+    "size": 143,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "CNS2-H.bcmap",
+    "size": 504,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "CNS2-V.bcmap",
+    "size": 93,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "ETHK-B5-H.bcmap",
+    "size": 4426,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "ETHK-B5-V.bcmap",
+    "size": 158,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "ETen-B5-H.bcmap",
+    "size": 1125,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "ETen-B5-V.bcmap",
+    "size": 158,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "ETenms-B5-H.bcmap",
+    "size": 101,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "ETenms-B5-V.bcmap",
+    "size": 172,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "EUC-H.bcmap",
+    "size": 578,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "EUC-V.bcmap",
+    "size": 170,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Ext-H.bcmap",
+    "size": 2536,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Ext-RKSJ-H.bcmap",
+    "size": 2542,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Ext-RKSJ-V.bcmap",
+    "size": 218,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Ext-V.bcmap",
+    "size": 215,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GB-EUC-H.bcmap",
+    "size": 549,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GB-EUC-V.bcmap",
+    "size": 179,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GB-H.bcmap",
+    "size": 528,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GB-V.bcmap",
+    "size": 175,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBK-EUC-H.bcmap",
+    "size": 14692,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBK-EUC-V.bcmap",
+    "size": 180,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBK2K-H.bcmap",
+    "size": 19662,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBK2K-V.bcmap",
+    "size": 219,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBKp-EUC-H.bcmap",
+    "size": 14686,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBKp-EUC-V.bcmap",
+    "size": 181,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBT-EUC-H.bcmap",
+    "size": 7290,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBT-EUC-V.bcmap",
+    "size": 180,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBT-H.bcmap",
+    "size": 7269,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBT-V.bcmap",
+    "size": 176,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBTpc-EUC-H.bcmap",
+    "size": 7298,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBTpc-EUC-V.bcmap",
+    "size": 182,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBpc-EUC-H.bcmap",
+    "size": 557,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "GBpc-EUC-V.bcmap",
+    "size": 181,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "H.bcmap",
+    "size": 553,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKdla-B5-H.bcmap",
+    "size": 2654,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKdla-B5-V.bcmap",
+    "size": 148,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKdlb-B5-H.bcmap",
+    "size": 2414,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKdlb-B5-V.bcmap",
+    "size": 148,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKgccs-B5-H.bcmap",
+    "size": 2292,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKgccs-B5-V.bcmap",
+    "size": 149,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKm314-B5-H.bcmap",
+    "size": 1772,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKm314-B5-V.bcmap",
+    "size": 149,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKm471-B5-H.bcmap",
+    "size": 2171,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKm471-B5-V.bcmap",
+    "size": 149,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKscs-B5-H.bcmap",
+    "size": 4437,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "HKscs-B5-V.bcmap",
+    "size": 159,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Hankaku.bcmap",
+    "size": 132,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Hiragana.bcmap",
+    "size": 124,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSC-EUC-H.bcmap",
+    "size": 1848,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSC-EUC-V.bcmap",
+    "size": 164,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSC-H.bcmap",
+    "size": 1831,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSC-Johab-H.bcmap",
+    "size": 16791,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSC-Johab-V.bcmap",
+    "size": 166,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSC-V.bcmap",
+    "size": 160,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSCms-UHC-H.bcmap",
+    "size": 2787,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSCms-UHC-HW-H.bcmap",
+    "size": 2789,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSCms-UHC-HW-V.bcmap",
+    "size": 169,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSCms-UHC-V.bcmap",
+    "size": 166,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSCpc-EUC-H.bcmap",
+    "size": 2024,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "KSCpc-EUC-V.bcmap",
+    "size": 166,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Katakana.bcmap",
+    "size": 100,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "LICENSE",
+    "size": 2080,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "NWP-H.bcmap",
+    "size": 2765,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "NWP-V.bcmap",
+    "size": 252,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "RKSJ-H.bcmap",
+    "size": 534,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "RKSJ-V.bcmap",
+    "size": 170,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "Roman.bcmap",
+    "size": 96,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniCNS-UCS2-H.bcmap",
+    "size": 48280,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniCNS-UCS2-V.bcmap",
+    "size": 156,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniCNS-UTF16-H.bcmap",
+    "size": 50419,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniCNS-UTF16-V.bcmap",
+    "size": 156,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniCNS-UTF32-H.bcmap",
+    "size": 52679,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniCNS-UTF32-V.bcmap",
+    "size": 160,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniCNS-UTF8-H.bcmap",
+    "size": 53629,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniCNS-UTF8-V.bcmap",
+    "size": 157,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniGB-UCS2-H.bcmap",
+    "size": 43366,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniGB-UCS2-V.bcmap",
+    "size": 193,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniGB-UTF16-H.bcmap",
+    "size": 44086,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniGB-UTF16-V.bcmap",
+    "size": 178,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniGB-UTF32-H.bcmap",
+    "size": 45738,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniGB-UTF32-V.bcmap",
+    "size": 182,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniGB-UTF8-H.bcmap",
+    "size": 46837,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniGB-UTF8-V.bcmap",
+    "size": 181,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UCS2-H.bcmap",
+    "size": 25439,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UCS2-HW-H.bcmap",
+    "size": 119,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UCS2-HW-V.bcmap",
+    "size": 680,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UCS2-V.bcmap",
+    "size": 664,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UTF16-H.bcmap",
+    "size": 39443,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UTF16-V.bcmap",
+    "size": 643,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UTF32-H.bcmap",
+    "size": 40539,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UTF32-V.bcmap",
+    "size": 677,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UTF8-H.bcmap",
+    "size": 41695,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS-UTF8-V.bcmap",
+    "size": 678,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS2004-UTF16-H.bcmap",
+    "size": 39534,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS2004-UTF16-V.bcmap",
+    "size": 647,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS2004-UTF32-H.bcmap",
+    "size": 40630,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS2004-UTF32-V.bcmap",
+    "size": 681,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS2004-UTF8-H.bcmap",
+    "size": 41779,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJIS2004-UTF8-V.bcmap",
+    "size": 682,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJISPro-UCS2-HW-V.bcmap",
+    "size": 705,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJISPro-UCS2-V.bcmap",
+    "size": 689,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJISPro-UTF8-V.bcmap",
+    "size": 726,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJISX0213-UTF32-H.bcmap",
+    "size": 40517,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJISX0213-UTF32-V.bcmap",
+    "size": 684,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJISX02132004-UTF32-H.bcmap",
+    "size": 40608,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniJISX02132004-UTF32-V.bcmap",
+    "size": 688,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniKS-UCS2-H.bcmap",
+    "size": 25783,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniKS-UCS2-V.bcmap",
+    "size": 178,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniKS-UTF16-H.bcmap",
+    "size": 26327,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniKS-UTF16-V.bcmap",
+    "size": 164,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniKS-UTF32-H.bcmap",
+    "size": 26451,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniKS-UTF32-V.bcmap",
+    "size": 168,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniKS-UTF8-H.bcmap",
+    "size": 27790,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "UniKS-UTF8-V.bcmap",
+    "size": 169,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "V.bcmap",
+    "size": 166,
+    "time": "Mar 17  2021"
+  },
+  {
+    "type": "file",
+    "name": "WP-Symbol.bcmap",
+    "size": 179,
+    "time": "Mar 17  2021"
+  }
+]
