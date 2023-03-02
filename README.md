@@ -1,3 +1,6 @@
+##### _Click below to browse the code of this project using MediaBrowser_
+## [Demo](https://glowinthedark.github.io/mediabro4caddy/#/mediabro4caddy/index.json)
+
 # MediaBrowser for Caddy
 
 MediaBrowser for Caddy is a minimalistic web client that provides an easy way to browse files on a computer, and view videos, audios, PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
