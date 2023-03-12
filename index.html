@@ -786,8 +786,17 @@
                 $link = $(e.target);
             }
 
+            // set deeplink in URL
             if ($link.data('type') === 'file') {
-                updateCurFile($link.data('name'));
+                var name;
+                if ($link.hasClass('fileinfo')) {
+                    name = $link.data('name');
+                } else if ($link.hasClass('imglnk')) {
+                    name = $link.parent().find('.fileinfo').data('name');
+                }
+                if (name) {
+                    updateCurFile(name);
+                }
             }
 
             // store the link for playNext()
