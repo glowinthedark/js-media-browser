@@ -426,7 +426,8 @@
     <script>
     var IS_HIGHLIGHTER_ENABLED = true;
     const IS_ALWAYS_USE_PDF_JS = false;
-    const USER_INDEX_JSON = 'index.json';
+    const USER_INDEX_JSON = '/index.json';
+    const SEP = '+!';
     const _MB_CURR_VTT = 'mb_last_vtt';
     const _MB_SHOW_HIDDEN = 'mb_show_hidden';
     const _MB_SKIP_START = 'mb_skip_start';
@@ -439,7 +440,7 @@
     const REGEX_TYPE_AUDIO_VIDEO = /(mp3|m4a|aac|flac|ape|wav|ogg|oga|ogv|mp4|m4v|avi|mov|mpg|mpeg|webm|mkv)$/i;
     const REGEX_TYPE_IMAGE = /\.(gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|heic)$/i;
     const REGEX_TYPE_CONTENT = /\.(pdf|html?|php|asp|js|py|sh|xml|txt|bat|docx?|xlsx?|s?css|java|c|log|\..+rc|cpp|h|hpp|srt|vtt|cfg|conf|ini|gif|jpe?g|a?png|tiff?|bmp|eps|pcx|webp|ico|psd|xpm|wmf|svg|cs|pl)$/i;
-    const REGEX_TYPE_CODE = /\.(kt|go|ics|rst?|rb|dart|php|js|tsx?|py|ipynb|z?sh|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|pl|yaml|yml|groovy|swift|properties|gradle|srt|sql|lua|m3u8?)$/i;
+    const REGEX_TYPE_CODE = /\.(kt|go|ics|rst?|rb|dart|php|js|tsx?|py|cue|ipynb|z?sh|xml|plist|bat|css|json|java|c|cpp|h|m|hpp|conf|ini|pl|yaml|yml|groovy|swift|properties|gradle|srt|sql|lua|m3u8?)$/i;
     const REGEX_TYPE_MARKDOWN = /\.(md)$/i;
 
     const ICON_AUDIO = "&#x1F3A7;" // 🎧
@@ -503,6 +504,7 @@
         'srt': ICON_TEXT,
         'txt': ICON_TEXT,
         'vtt': ICON_TEXT,
+        'cue': ICON_TEXT,
 
         'bat': ICON_MISC,
         'c': ICON_MISC,
@@ -743,13 +745,13 @@
                     p.currentTime = p.currentTime - 5;
                     break;
                 case 38: // up
-                    p.currentTime = p.currentTime + 60;
+                    p.currentTime = p.currentTime + 10;
                     break;
                 case 39: //  right
                     p.currentTime = p.currentTime + 5;
                     break;
                 case 40: // down
-                    p.currentTime = p.currentTime - 60;
+                    p.currentTime = p.currentTime - 10;
                     break;
                 case 32: // space
                     // chrome OOTB handles play/pause on space when the element is focused
@@ -779,11 +781,13 @@
 
             if (e.target.tagName !== 'A') {
                 $link = $(e.target).closest('a');
-                if ($link.data('type') === 'file') {
 
-                }
             } else {
                 $link = $(e.target);
+            }
+
+            if ($link.data('type') === 'file') {
+                updateCurFile($link.data('name'));
             }
 
             // store the link for playNext()
@@ -1058,20 +1062,20 @@
     }
 
     function goUp() {
-        var curdir = getPath();
+        var curdir = getUrlMetadata().curdir;
 
         if (curdir) {
             if (curdir.endsWith('/')) {
                 curdir = curdir.slice(0, -1);
             }
-            if (window.location.href.indexOf(`/${USER_INDEX_JSON}`) != -1) {
-                curdir = curdir.replace(`/${USER_INDEX_JSON}`, '');
+            if (window.location.href.indexOf(USER_INDEX_JSON) != -1) {
+                curdir = curdir.replace(USER_INDEX_JSON, '');
             }
 
             var parentDir = curdir.substring(0, curdir.lastIndexOf('/'));
 
             if (window.location.href.indexOf(USER_INDEX_JSON) != -1) {
-                parentDir = `${parentDir}/${USER_INDEX_JSON}`;
+                parentDir = `${parentDir}${USER_INDEX_JSON}`;
             }
             if (parentDir) {
                 window.top.location.hash = parentDir;
@@ -1097,12 +1101,36 @@
         videoplayer.get(0).VTT_META = meta;
     }
 
-    function getPath() {
-        var curdir = window.top.location.hash;
-        if (curdir) {
-            curdir = curdir.slice(1);
+    function updateCurFile(currentFile) {
+        var curHash = window.top.location.hash.slice(1);
+        var posFileSep = curHash.indexOf(SEP);
+        
+        if (posFileSep !== -1) {
+            var chunks = curHash.split(SEP);
+            chunks[1] = currentFile;
+            window.top.location.hash = chunks.join(SEP);
+        } else {
+            window.top.location.hash = `${curHash}${SEP}${currentFile}`;
         }
-        return curdir || '/';
+    }
+
+    function getUrlMetadata() {
+        var curFile, curDir, hash = window.top.location.hash.slice(1);
+        if (hash) {
+
+            var posFileSep = hash.indexOf(SEP);
+            
+            if (posFileSep !== -1) {
+                [curDir, curFile] = hash.split(SEP);
+            } else {
+                curDir = hash;
+            }
+        }
+
+        return {
+            curdir: curDir || '/',
+            selectedFile: curFile
+        };
     }
 
     function isTrue(val) {
@@ -1110,7 +1138,8 @@
     }
 
     function loadData(path) {
-        var curdir = path || getPath();
+        var urlMeta = getUrlMetadata();
+        var curdir = path || urlMeta.curdir;
         var params = new URL(document.location.href).searchParams;
         var includeHidden = isTrue(params.get('hidden')) || isTrue(localStorage.getItem(_MB_SHOW_HIDDEN));
         window._skipIntroGlobalSecs = params.get('skip') || localStorage.getItem(_MB_SKIP_START);
@@ -1177,7 +1206,7 @@
                         icon = ICON_DIR;
                         if (isCustomIndex) {
                             // using static index.json with other servers than caddy
-                            href = `${window.location.pathname}#${curdirBase}${path}/${USER_INDEX_JSON}`;
+                            href = `${window.location.pathname}#${curdirBase}${path}${USER_INDEX_JSON}`;
                         } else {
                             // using caddy
                             href = `${window.location.pathname}#${curdirBase}${path}`;
@@ -1199,7 +1228,7 @@
 
                     var fileSize = isDir ? '' : fileSizeIEC(element.size);
 
-                    if (REGEX_TYPE_IMAGE.test(href) && element.size < 1048576) {
+                    if (REGEX_TYPE_IMAGE.test(href) && element.size < 10485760) {
 
                         preview = `<a class="imglnk" data-type="file" title="️${element.name} - [${fileSize}] &#x1F55D; ${lastModified}" href="${href}">
                                 <div class="preview">
@@ -1225,6 +1254,14 @@
             }).always(function name(params) {
                 window.top.location.hash = curdir;
                 $('#spinr').hide();
+
+                if (urlMeta.selectedFile) {
+                    var selected = document.querySelector(`a[data-name="${decodeURIComponent(urlMeta.selectedFile)}"]`);
+                    if (selected) {
+                        selected.scrollIntoView({behavior: "smooth", block: "start"});
+                        selected.click();
+                    }
+                }
             });
     }
 
@@ -1330,7 +1367,7 @@
         });
 
         if (numEntries){
-            var dirname = document.location.hash;
+            var dirname = getUrlMetadata().curdir; // document.location.hash;
             if (dirname.endsWith('/')) {
                 dirname = dirname.slice(0, -1);
             }
