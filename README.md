@@ -102,7 +102,7 @@ tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s -o index.json
 You can generate `index.json` files recursively in an entire subtree with `find`. This invocation will create the `index.json` recursively excluding from the listing the actual `index.json` itself and the `.git` folder):
 
 ```bash
-find . -type d ! -path "*/.git/*" -exec sh -c 'echo "$0" && tree "$0" -L 1 -I "index.json" --ignore-case -J -s -D -o "$0/index.json"' {} \;
+find . -type d ! -path "*/.git/*" -print -exec sh -c 'tree "$0" -L 1 -I "index.json" --ignore-case -J -s -D -o "$0/index.json"' {} \;
 ```
 
 To browse a folder via a custom `index.json` file open the corresponding target folder with:
