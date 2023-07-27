@@ -9,7 +9,7 @@ MediaBrowser does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](ht
 
 The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text. Clicking a media file will open it in the media preview panel and attempt to find a matching PDF, HTML, etc file with the same base name. If matching content was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
 
-MediaBrowser is a purely client-side web client that works together with [caddy server](https://caddyserver.com/).  
+MediaBrowser is a lightweight HTML+JS browser-based client that works together with [caddy web server](https://caddyserver.com/).  
 
 <sup>MediaBrowser can also work with other HTTP servers. In this scenario a static `index.json` file must be present in each folder that is exposed for browsing. For details on how to generate static index files see the [Using with other web servers](#using-with-other-web-servers) section below. </sup>
 
