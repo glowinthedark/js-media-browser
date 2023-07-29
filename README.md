@@ -3,11 +3,11 @@
 
 # MediaBrowser for Caddy
 
-MediaBrowser for Caddy is a minimalistic web client that provides an easy way to browse files on a computer, and view videos, audios, PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
+MediaBrowser for Caddy is a minimalistic web client that provides an easy way to browse files on a computer, play videos and audios, view PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
 
 MediaBrowser does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser).
 
-The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text. Clicking a media file will open it in the media preview panel and attempt to find a matching PDF, HTML, etc file with the same base name. If matching content was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
+The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text. Clicking a video or audio media file will open it in the media preview panel and attempt to find a matching PDF, HTML, etc file with the same base name. If matching content was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
 
 MediaBrowser is a lightweight HTML+JS browser-based client that works together with [caddy web server](https://caddyserver.com/).  
 
