@@ -124,9 +124,17 @@ AUTO_PLAY_NEXT = true;
 const URL_TRANSFORMATIONS = [
     // LINK REGEX                                        MATCHING LINK REPLACEMENT
     [/clo_(\d{3}).*\.mp3/i, "../PDF/CLO_$1_Vocab.pdf"],
+    // chinesepod content links (pdf, html)
+    [/(.*chinesepod.*?)(?:_ex)?\.(pdf|html?)/i, "../$1pr.aac"],
+    // chinesepod media links (aac, mp3..)
     [/(.*chinesepod.*?)(?:(dg|pr|rv))?\.(aac|mp3|m4a)/i, "pdf/$1\.pdf"],
+
+    // chinese pod collection
     [/(.*?)pr+([^.]+)\.mp3/i, "$1$2.pdf"],
     [/([^\s,-]+)\b([^.]+)\.(pdf)/i, "$1pr$2.mp3"]
+    // [/(.*).pdf/i,                     function (match, capture) {
+    //     return match.replace(/-/g, ' ') + ' ';
+    // }]
 ];
 
 const SKIP_INTROS = [
@@ -162,7 +170,7 @@ var isEdgeChromium = isChrome && (navigator.userAgent.indexOf("Edg") !== -1);
 // Blink engine detection
 var isBlink = (isChrome || isOpera) && !!window.CSS;
 
-var isMobile = window.orientation > -1;
+var isMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0);
 
 var HEIGHT_AUDIO = 50;
 
@@ -184,7 +192,7 @@ function playNext(e) {
             nextLink = nextLink.closest('li').next('li').find('a');
         } while (nextLink.length !== 0 && !isPlayableLink(nextLink.attr('href')));
 
-        if (nextLink && isPlayableLink(nextLink.attr('href'))) {
+        if (nextLink.length && isPlayableLink(nextLink.attr('href'))) {
             nextLink.click();
         }
     }
@@ -216,7 +224,7 @@ function findMatchingFileByExtension(path, extension_regex, isReturnMultiple) {
 
         if (matcher) {
             var matchedName = baseName.replace(item[0], item[1]);
-            if (!matchedName === baseName) {
+            if (matchedName !== baseName) {
                 return parentDir + matchedName;
             }
         }
@@ -305,8 +313,11 @@ function attachEventListeners() {
 
     // handle key navigation
     document.onkeydown = function (e) {
-        e.preventDefault();
-        e.stopImmediatePropagation();
+        if ([37, 38, 39, 40, 32, 70].indexOf(e.which) !== -1) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+        }
+
         var p = (audioplayer.is(':visible') ? audioplayer : videoplayer).get(0);
 
         switch (e.which) {
@@ -474,15 +485,15 @@ function attachEventListeners() {
                     .attr('src', mediaLink)
                     .show();
 
-                // add VTT subs
+                // ADD VTT SUBS
                 var vttLinks = findMatchingFileByExtension(mediaLink, /.*\.vtt/, true);
 
                 if (vttLinks) {
-                    addVttSubtitleTracks(vttLinks, $link);
+                    addVttSubtitleTracksleTracks(vttLinks, $link);
                 } else {
-                    // add SRT subs if no VTT
                     var srtLinks = findMatchingFileByExtension(mediaLink, /.*\.srt/, true);
 
+                    // ADD SRT SUBS if no VTT
                     if (srtLinks) {
                         addSRTSubtitleTracks(srtLinks, $link);
                     }
