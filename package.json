@@ -1,0 +1,27 @@
+{
+  "name": "mediabro24caddy",
+  "version": "11.0.0",
+  "private": true,
+  "description": "An HTML+JS media browser for navigating file systems that contain text files, images, audio or video files. For video/audio files associated content such as PDF, HTML, or TXT can be displayed based on file name matching rules.",
+  "main": "index.html",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glowinthedark/mediabro4caddy.git"
+  },
+  "author": "xh",
+  "license": "xh",
+  "bugs": {
+    "url": "https://github.com/glowinthedark/mediabro4caddy/issues"
+  },
+  "homepage": "https://github.com/glowinthedark/mediabro4caddy",
+  "scripts": {
+    "build-html": "html-minifier-terser --remove-redundant-attributes --remove-script-type-attributes --remove-style-link-type-attributes --collapse-whitespace --collapse-boolean-attributes --minify-css true --minify-js false --remove-comments index.html -o index.min.html",
+    "build-js": "terser js/main.js -o js/main.min.js",
+    "build": "npm run build-html && npm run build-js"
+  },
+  "devDependencies": {
+    "clean-css": "^5.3.2",
+    "html-minifier-terser": "^7.2.0",
+    "terser": "^5.19.2"
+  }
+}
