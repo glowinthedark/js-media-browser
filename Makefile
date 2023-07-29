@@ -11,5 +11,8 @@ minify-html:
 minify-js:
 	terser js/main.js -o js/main.min.js
 
+install:
+	npm install
+
 clean:
 	rm -f -v index.min.html js/main.min.js
