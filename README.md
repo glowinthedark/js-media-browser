@@ -45,7 +45,7 @@ http:// {
 * resizable navigation and content panels
 * markdown rendering for `.md` files
 * syntax highlighting for source code files
-* automatic detection and loading of WebVTT subtitles for video files
+* automatic detection and loading of WebVTT (.vtt) and SRT (.srt) subtitles for video files
 
 Example: if a folder contains an MP4 file named `video-01.mp4` and a PDF file named `video-01.pdf`, then clicking the MP4 file will start playing in the media panel above while the PDF will be loaded in the content panel below the video . 
 
