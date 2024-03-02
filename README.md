@@ -1,17 +1,17 @@
 ##### _Click below to browse this repository using MediaBrowser_
-## [Demo](https://glowinthedark.github.io/mediabro4caddy/#/mediabro4caddy/index.json)
+## [Demo](https://glowinthedark.github.io/js-media-browser/#/js-media-browser/index.json)
 
-# MediaBrowser for Caddy
+# JS Media Browser
 
-MediaBrowser for Caddy is a minimalistic web client that provides an easy way to browse files on a computer, play videos and audios, view PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
+JS Media Browser for Caddy is a minimalistic browser-based client for browsing files on a remote or local computer, playing videos and audios, viewing PDFs, images and text content. The only server-side requirement is a vanilla [caddy server](https://caddyserver.com/) installation.
 
-MediaBrowser does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser).
+The client does not aim to replace [Plex](https://www.plex.tv/), [Jellyfin](https://jellyfin.org/), [Dim](https://github.com/Dusk-Labs/dim), [Filebrowser](https://github.com/filebrowser/filebrowser).
 
-The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text. Clicking a video or audio media file will open it in the media preview panel and attempt to find a matching PDF, HTML, etc file with the same base name. If matching content was found it will be loaded in the content preview panel below the media panel. You can also add your own matching rules by editing the code. 
+The intended use is HTTP browsing of audio or video files with associated notes in PDF, HTML, Markdown, or plain text. Clicking a video or audio media file will open it in the media preview panel and attempt to find a matching PDF, HTML, etc file with the same base name. If matching content was found it will be loaded in the content preview panel below the media panel. 
 
 MediaBrowser is a lightweight HTML+JS browser-based client that works together with [caddy web server](https://caddyserver.com/).  
 
-<sup>MediaBrowser can also work with other HTTP servers. In this scenario a static `index.json` file must be present in each folder that is exposed for browsing. For details on how to generate static index files see the [Using with other web servers](#using-with-other-web-servers) section below. </sup>
+<sup>MediaBrowser can also work with other HTTP servers. In this scenario a static `index.json` file must be present in each folder. For details on how to generate static index files see [Usage with other web servers](#using-with-other-web-servers). </sup>
 
 ![](img/mediabrowser-1.png)
 
@@ -84,7 +84,7 @@ The URL can process the following extra parameters:
 Example URL with custom parameters which shows dot files, uses pdf.js for PDF rendering and skips the first 15 seconds on media playback: 
 
 
-- `http://example.com/path/to/project/mediabro24caddy/index.html?hidden=true&skip=15&pdfjs=true#/path/to/content/`
+- `http://example.com/path/to/project/js-media-browser/index.html?hidden=true&skip=15&pdfjs=true#/path/to/content/`
 
 ## How does it work?
 
@@ -92,7 +92,7 @@ Example URL with custom parameters which shows dot files, uses pdf.js for PDF re
 
 ## Using with other web servers
 
-In order to use MediaBrowser with other web servers each folder to browse most contains an `index.json` file with directory contents. The files can be generated, for example, with the `tree` command line utility as follows:
+In order to use the media browsder with other web servers each folder to browse most contains an `index.json` file with directory contents. The files can be generated, for example, with the `tree` command line utility as follows:
 
 ```bash
 tree -L 1 -P '*.mp4|*.srt|*.vtt' --ignore-case -J -s -o index.json
@@ -107,7 +107,7 @@ find . -type d ! -path "*/.git/*" -print -exec sh -c 'tree "$0" -L 1 -I "index.j
 
 To browse a folder via a custom `index.json` file open the corresponding target folder with:
 
-    http://example.com/path/to/project/mediabro24caddy/index.html#/path/to/data/folder/index.json
+    http://example.com/path/to/project/js-media-browser/index.html#/path/to/data/folder/index.json
     
 #### Example 2: exclude files by glob, include by glob, include custom last modified date and size:
 ```bash
